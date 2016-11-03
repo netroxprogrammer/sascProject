@@ -20,6 +20,16 @@ class Database{
 		}
 	}
 
+	public function updateData($query){
+		$result= $this->link->query($query) or  die("Sorry Database field not match");
+		if($result){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
 	public function addUserData($query){
 		$result= $this->link->query($query) or  die("Sorry Database field not match");
 		if($result){

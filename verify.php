@@ -19,7 +19,7 @@ if(isset($_GET['email'])){
 				$str = "select *from emailverify where  userId='$userId' AND email = '$vemail' AND tokken='$tokken'";
 				$isTokken = $database->isDataExist($str);
 				if($isTokken){
-					header("Location: home.php");
+					header("Location: profile.php");
 				}
 			}
 			else{

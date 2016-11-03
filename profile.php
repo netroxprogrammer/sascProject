@@ -6,18 +6,29 @@
 <?php 
 $database = new Database();
 $uploadImage  = new Upload();
+$roles = $database->getDataList("select *from roles");
+
+
 if(isset($_POST['submit_profile'])){
 	
 	if(isset($_POST['location']) ||  !empty($_POST['location']) &&
-			isset($_POST['address']) || !empty($_POST['address'])){
+			isset($_POST['address']) || !empty($_POST['address']) && 
+			isset($_POST['role']) || !empty($_POST['role'])){
 		$location= $_POST['location'];
 		$address = $_POST['address'];
+		$role = $_POST['role'];
+		$_SESSION['role'] = $role;
+			$userId = $_SESSION['userId'];
+		
+		$str = "update  users  set userRole='$role' where userId = '$userId'";
+        $update = $database->updateData($str);
+		
 		$path =  $uploadImage->uploadImage();
-	//	$userId = $_SESSION['userId'];
+
 		$str= "insert into profile(userId,location,address,profileImage) values(1,'$location','$address','$path')";
 				$result = $database->addUserData($str);
-				if($result){
-					header("Location: profession.php");
+				if($result && $update){
+					header("Location: profession.php?role='$role'");
 				}
 	}
 	else{
@@ -71,9 +82,22 @@ if(isset($_POST['submit_profile'])){
                         </div>
                         <div class="form-group">
                           <label for="address">Address</label>
-                          <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address">
+                          <input type="text"  class="form-control" id="address" name="address" placeholder="Enter Address">
                         </div>
                       </div>
+                             
+                       <div class="col-sm-3">
+                       <strong>Role</strong> <select class="form-control" name="role">
+                         <?php if($roles){
+                       while($rows= $roles->fetch_assoc()){
+                       	?>
+                       	<option <?php echo $rows['id'];?>><?php echo $rows['role'];?></option>
+                       <?php 
+                       }
+}
+                       ?>
+                       </select>
+                       </div>
                       <div class="col-sm-4 col-sm-offset-9">
                       <input type="submit" name="submit_profile" class="btn  btn-primary">     
                       </div>
