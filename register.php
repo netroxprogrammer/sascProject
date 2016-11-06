@@ -2,6 +2,7 @@
 <?php  include_once 'includes/header.php';?>
 <?php  include_once 'libraries/Database.php';?>
 <?php  include_once 'config/helping.php';?>
+<?php include_once "MainSetting/email.php";?>
 <?php 
 $database =  new Database();
 $days = $database->getDataList("select *from days");
@@ -33,12 +34,21 @@ if(isset($_POST['firstname']) && !empty($_POST['firstname']) ||
 			 values('$firstName','$lastName','$password','$email','$phonenumber','$day','$month','$year','$gender')";
 	$result = $database->LoginUser($str);
 	$string = generateRandomString();
+	sendMail($email, $string);
+	
 	if($result>0){
 		$str =  "insert into  emailverify(userId,email,tokken) values('$result','$email','$string')";
 		$emailVerify = $database->EmailVeirfy($str);
+		
 		if($emailVerify){
 			$_SESSION['userId'] = $result;
-		header("Location: verify.php?email=".$email);
+			$_SESSION['email'] = $email;
+				
+			?>
+			<script>
+			window.location="verify.php";
+			</script>
+		<?php 
 		}
 	}else{
 		header("Location: register.php?error=Sorry Data not Save");

@@ -5,8 +5,8 @@
 <?php 
 $database = new Database();
 
-if(isset($_GET['email'])){
-	$email  = $_GET['email'];
+if(isset($_SESSION['email'])){
+	$email  = $_SESSION['email'];
 	$result = $database->isDataExist("select *from users where userEmail='$email'");
 	if($result){
 		if(isset($_POST['submit']) && isset($_POST['tokken'])){
