@@ -4,6 +4,7 @@
 <?php  include_once 'config/helping.php';?>
 <?php include_once "MainSetting/email.php";?>
 <?php 
+if(!isset($_SESSION['email']) && !isset($_SESSION['userId'])){
 $database =  new Database();
 $days = $database->getDataList("select *from days");
 $months = $database->getDataList("select *from month");
@@ -43,7 +44,7 @@ if(isset($_POST['firstname']) && !empty($_POST['firstname']) ||
 		if($emailVerify){
 			$_SESSION['userId'] = $result;
 			$_SESSION['email'] = $email;
-				
+			
 			?>
 			<script>
 			window.location="verify.php";
@@ -89,14 +90,7 @@ else{
                 <ul>
                   <li><a href="#about"   data-toggle="tab"></a></li>
                   
-                  
-                </ul>
-
-                <div class="tab-content">
-                  <!-- about tab -->
-                  
-                  <div class="tab-pane" id="about">
-                    <center>
+                   <center>
                     <div class="row ">
                       <div class="well col-sm-6 col-sm-offset-3">
                 
@@ -176,14 +170,22 @@ else{
                     
                     </div>
                     </center>
-                  </div><!-- end about tab -->                  
-                  </div><!-- end address tab -->
-
-                  <div class="wizard-footer">
+                      <div class="wizard-footer">
                     <div class="pull-right">
                         <input type='submit' class="btn btn-primary" name="register"> 
                     </div>
                   
+                </ul>
+
+                <div class="tab-content">
+                  <!-- about tab -->
+                  
+                  <div class="tab-pane" id="about">
+                   
+                  </div><!-- end about tab -->                  
+                  </div><!-- end address tab -->
+
+                
                     <div class="clearfix"></div>
                   </div>  
                 </div>
@@ -213,3 +215,7 @@ else{
 
 <!-- Mirrored from demos.bootdey.com/dayday/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:51:23 GMT -->
 </html>
+<?php }else{
+	header("Location: home.php");
+}?>
+

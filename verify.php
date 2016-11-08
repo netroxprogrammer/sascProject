@@ -19,7 +19,13 @@ if(isset($_SESSION['email'])){
 				$str = "select *from emailverify where  userId='$userId' AND email = '$vemail' AND tokken='$tokken'";
 				$isTokken = $database->isDataExist($str);
 				if($isTokken){
+                   $update = "update emailverify set verify='yes' where email='$vemail'";
+                   $upd = $database->updateData($update);
+                   if($upd){
 					header("Location: profile.php");
+				}
+				}else{
+					header("Location: verify.php?email=12344");
 				}
 			}
 			else{

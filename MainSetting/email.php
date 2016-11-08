@@ -16,7 +16,7 @@ $mail->Port = 465; // 587            // set mailer to use SMTPor
   // specify main and backup server
 $mail->SMTPAuth = true;     // turn on SMTP authentication
 $mail->Username = "umtskt1122@gmail.com";  // SMTP username
-$mail->Password = ""; // SMTP password
+$mail->Password = "Abdullah123"; // SMTP password
 
 $mail->From = "umtskt1122@gmail.com";
 $mail->FromName = "SASC";

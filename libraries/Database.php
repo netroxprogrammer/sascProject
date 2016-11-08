@@ -73,6 +73,7 @@ class Database{
 		if($result->num_rows>0){
 			return $result;
 		}
+		return false;
 	}
 }
 

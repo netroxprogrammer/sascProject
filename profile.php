@@ -4,6 +4,8 @@
 <?php include_once 'libraries/Database.php';?>
 <?php include_once 'libraries/Upload.php';?>
 <?php 
+
+
 $database = new Database();
 $uploadImage  = new Upload();
 $roles = $database->getDataList("select *from roles");
@@ -70,7 +72,7 @@ if(isset($_POST['submit_profile'])){
                           
                           <div class="picture">
                             <img src="img/Profile/default-avatar.png" class="picture-src" id="wizardPicturePreview" title=""/>
-                            <input type="file" id="file" name="file" id="wizard-picture">
+                            <input type="file"  name="file" id="wizard-picture">
                           </div>
                           <h6>Choose Picture</h6>
                         </div>
