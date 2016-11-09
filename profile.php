@@ -27,7 +27,7 @@ if(isset($_POST['submit_profile'])){
 		
 		$path =  $uploadImage->uploadImage();
 
-		$str= "insert into profile(userId,location,address,profileImage) values(1,'$location','$address','$path')";
+		$str= "insert into profile(userId,location,address,profileImage) values('$userId','$location','$address','$path')";
 				$result = $database->addUserData($str);
 				if($result && $update){
 					header("Location: profession.php?role='$role'");

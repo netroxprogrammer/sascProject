@@ -1,9 +1,35 @@
 <?php session_start(); ?>
 <?php  include_once 'config/config.php'; ?>
 <?php  include_once 'libraries/Database.php';?>
+<?php include_once 'libraries/Upload.php';?>
 <?php
+$database = new Database();
+$uploadImage = new Upload();
 
 if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
+	$userId = $_SESSION['userId'];
+	$firstName = $_SESSION['firstName'];
+	$lastName = $_SESSION['lastName'];
+	$userName = $firstName." ".$lastName;
+	if(isset($_POST['post_status'])){
+		if(isset($_POST['status']) || !empty($_POST['status'])){
+			$status = $_POST['status'];
+			//$image = $_POST['file'];
+			$privacy = $_POST['privacy'];		
+			$path =  $uploadImage->uploadImage();
+			$str = "insert  into  posts(userId,userName,image,status,privacy) 
+			values('$userId','$userName','$path','$status','$privacy')";
+			$addPost = $database->addUserData($str);
+			if($addPost){
+				header("Location: home.php");
+		}
+		else{
+			header("Location: home.php?error=sorry status not  post");
+		}
+	}
+	
+	
+}$allPost = $database->getDataList("select *from posts where  userId='$userId'");
 	?>
 <!DOCTYPE html>
 <html>
@@ -56,7 +82,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index-2.html"> <b>Day-Day</b></a>
+				<a class="navbar-brand" href="home.php"> <b>SASC</b></a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<div class="col-md-5 col-sm-4">
@@ -95,8 +121,8 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 							<li><a href="#">One option</a></li>
 							<li><a href="#">Another option</a></li>
 							<li class="divider"></li>
-							<li><a href="#">Profile</a></li>
-							<li><a href="#">Logout</a></li>
+							<li><a href="home.php">Profile</a></li>
+							<li><a href="logout.php">Logout</a></li>
 						</ul></li>
 					<li><a href="#" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
 				</ul>
@@ -429,7 +455,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 				<div class="col-md-7 col-sm-7 col-xs-12 col-posts">
 					<div class="col-md-12">
 						<div class="well">
-							<form class="form-horizontal" role="form">
+							<form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
 								<h4>What's New</h4>
 								<div class="form-group" style="padding: 14px;">
 									<textarea class="form-control" name="status" required placeholder="Update your status"></textarea>
@@ -437,16 +463,19 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 								
 								
 								
-								<ul class="list-inline">
+								<ul class="list-inline">	
 								   
 									<li> <div class="picture-container">
                           <div class="picture">
-                            <img src="img/Profile/default-avatar.png" width="20%" class="picture-src" id="wizardPicturePreview" title=""/>
-                            <input type="file" id="wizard-picture" name=>
+                          
+                            <img src="" width="20%" class="picture-src" id="wizardPicturePreview" title=""/>
+                          
+                          
+                              <input type="file" id="wizard-picture" name="file">
                           </div>
                         </div> </li>
 									<input type="submit" class="btn btn-primary pull-right" name="post_status" value="Post">
-									<select class="selectpicker show-menu-arrow" name="status">
+									<select class="selectpicker show-menu-arrow" name="privacy">
 									<option>private</option>
 									<option>public</option>
 									<option>Students</option>
@@ -457,6 +486,10 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 							</form>
 						</div>
 					</div>
+					<?php if($allPost){
+						while ($rows=$allPost->fetch_assoc()){
+							
+							?>
 					<div class="col-md-12">
 						<div class="panel panel-white post panel-shadow">
 							<div class="post-heading">
@@ -466,16 +499,22 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 								</div>
 								<div class="pull-left meta">
 									<div class="title h5">
-										<a href="#" class="post-user-name">Nickson Bejarano</a>
-										uploaded a photo.
+										<a href="#" class="post-user-name"><?php echo $rows['userName']; ?></a>
+										<?php if($rows['image']=="upload/"){?>
+										Post a Status.
+										<?php }else{?>
+										   Upload a photo
+										<?php }?>
 									</div>
-									<h6 class="text-muted time">5 seconds ago</h6>
+									<h6 class="text-muted time"><?php  echo date('H:i', strtotime($rows['time'])); ?> ago</h6>
 								</div>
 							</div>
+							<?php if($rows['image']!="upload/"){?>
 							<div class="post-image">
-								<img src="img/Post/place1-full.jpg" class="image show-in-modal"
+								<img src="<?php echo $rows['image'];?>" class="image show-in-modal"
 									alt="image post">
 							</div>
+							<?php } ?>
 							<div class="post-description">
 								<p>This is a short description</p>
 								<div class="stats">
@@ -534,6 +573,8 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 							</div>
 						</div>
 					</div>
+					<?php
+						} } ?>
 					<div class="col-md-12">
 						<div class="panel panel-white post panel-shadow">
 							<div class="post-heading">
