@@ -3,33 +3,32 @@
 <?php  include_once 'libraries/Database.php';?>
 <?php include_once 'libraries/Upload.php';?>
 <?php
-$database = new Database();
-$uploadImage = new Upload();
+
+$database = new Database ();
+$uploadImage = new Upload ();
 
 if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
-	$userId = $_SESSION['userId'];
-	$firstName = $_SESSION['firstName'];
-	$lastName = $_SESSION['lastName'];
-	$userName = $firstName." ".$lastName;
-	if(isset($_POST['post_status'])){
-		if(isset($_POST['status']) || !empty($_POST['status'])){
-			$status = $_POST['status'];
-			//$image = $_POST['file'];
-			$privacy = $_POST['privacy'];		
-			$path =  $uploadImage->uploadImage();
+	$userId = $_SESSION ['userId'];
+	$firstName = $_SESSION ['firstName'];
+	$lastName = $_SESSION ['lastName'];
+	$userName = $firstName . " " . $lastName;
+	if (isset ( $_POST ['post_status'] )) {
+		if (isset ( $_POST ['status'] ) || ! empty ( $_POST ['status'] )) {
+			$status = $_POST ['status'];
+			// $image = $_POST['file'];
+			$privacy = $_POST ['privacy'];
+			$path = $uploadImage->uploadImage ();
 			$str = "insert  into  posts(userId,userName,image,status,privacy) 
 			values('$userId','$userName','$path','$status','$privacy')";
-			$addPost = $database->addUserData($str);
-			if($addPost){
-				header("Location: home.php");
-		}
-		else{
-			header("Location: home.php?error=sorry status not  post");
+			$addPost = $database->addUserData ( $str );
+			if ($addPost) {
+				header ( "Location: home.php" );
+			} else {
+				header ( "Location: home.php?error=sorry status not  post" );
+			}
 		}
 	}
-	
-	
-}$allPost = $database->getDataList("select *from posts where  userId='$userId'");
+	$allPost = $database->getDataList ( "select *from posts where  userId='$userId'  ORDER BY  postId DESC" );
 	?>
 <!DOCTYPE html>
 <html>
@@ -57,16 +56,17 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 <script type="text/javascript" src="bootstrap-3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/js/dayday/dayday.js"></script>
 
-    <link href="bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="font-awesome-4.3.0/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/css/animate.min.css" rel="stylesheet" media="screen" />
-    <link href="assets/css/creative/gsdk-base.css" rel="stylesheet" />  
-    <link href="assets/css/dayday/register.css" rel="stylesheet" />  
+<link href="bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet" />
+<link href="font-awesome-4.3.0/css/font-awesome.css" rel="stylesheet" />
+<link href="assets/css/animate.min.css" rel="stylesheet" media="screen" />
+<link href="assets/css/creative/gsdk-base.css" rel="stylesheet" />
+<link href="assets/css/dayday/register.css" rel="stylesheet" />
 
-    <script src="assets/js/creative/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="bootstrap-3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="assets/js/creative/jquery.bootstrap.wizard.js" type="text/javascript"></script>
-    <script src="assets/js/creative/wizard.js" type="text/javascript"></script>
+<script src="assets/js/creative/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="bootstrap-3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/js/creative/jquery.bootstrap.wizard.js"
+	type="text/javascript"></script>
+<script src="assets/js/creative/wizard.js" type="text/javascript"></script>
 <link rel="shortcut icon" href="img/favicon.png">
 </head>
 <body>
@@ -455,41 +455,47 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 				<div class="col-md-7 col-sm-7 col-xs-12 col-posts">
 					<div class="col-md-12">
 						<div class="well">
-							<form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+							<form class="form-horizontal" role="form" method="post"
+								enctype="multipart/form-data">
 								<h4>What's New</h4>
 								<div class="form-group" style="padding: 14px;">
-									<textarea class="form-control" name="status" required placeholder="Update your status"></textarea>
+									<textarea class="form-control" name="status" required
+										placeholder="Update your status"></textarea>
 								</div>
-								
-								
-								
-								<ul class="list-inline">	
-								   
-									<li> <div class="picture-container">
-                          <div class="picture">
-                          
-                            <img src="" width="20%" class="picture-src" id="wizardPicturePreview" title=""/>
-                          
-                          
-                              <input type="file" id="wizard-picture" name="file">
-                          </div>
-                        </div> </li>
-									<input type="submit" class="btn btn-primary pull-right" name="post_status" value="Post">
+
+
+
+								<ul class="list-inline">
+
+									<li>
+										<div class="picture-container">
+											<div class="picture">
+
+												<img src="" width="20%" class="picture-src"
+													id="wizardPicturePreview" title="" /> <input type="file"
+													id="wizard-picture" name="file">
+											</div>
+										</div>
+									</li>
+									<input type="submit" class="btn btn-primary pull-right"
+										name="post_status" value="Post">
 									<select class="selectpicker show-menu-arrow" name="privacy">
-									<option>private</option>
-									<option>public</option>
-									<option>Students</option>
-									<option>Teachers</option>
-								</select>
+										<option>private</option>
+										<option>public</option>
+										<option>Students</option>
+										<option>Teachers</option>
+									</select>
 								</ul>
-								
+
 							</form>
 						</div>
 					</div>
-					<?php if($allPost){
-						while ($rows=$allPost->fetch_assoc()){
-							
-							?>
+					<?php
+	
+if ($allPost) {
+		while ( $rows = $allPost->fetch_assoc () ) {
+			
+			?>
 					<div class="col-md-12">
 						<div class="panel panel-white post panel-shadow">
 							<div class="post-heading">
@@ -511,12 +517,13 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 							</div>
 							<?php if($rows['image']!="upload/"){?>
 							<div class="post-image">
-								<img src="<?php echo $rows['image'];?>" class="image show-in-modal"
-									alt="image post">
+								<img src="<?php echo $rows['image'];?>"
+									class="image show-in-modal" alt="image post">
 							</div>
 							<?php } ?>
 							<div class="post-description">
-								<p>This is a short description</p>
+
+								<p><?php echo $rows['status']; ?></p>
 								<div class="stats">
 									<a href="#" class="btn btn-default stat-item"> <i
 										class="fa fa-thumbs-up icon"></i> 228
@@ -525,210 +532,15 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 									</a>
 								</div>
 							</div>
-							<div class="post-footer">
-								<div class="input-group">
-									<input class="form-control" placeholder="Add a comment"
-										type="text"> <span class="input-group-addon"> <a href="#"><i
-											class="fa fa-edit"></i></a>
-									</span>
-								</div>
-								<ul class="comments-list">
-									<li class="comment"><a class="pull-left" href="#"> <img
-											class="avatar" src="img/Friends/guy-3.jpg" alt="avatar">
-									</a>
-										<div class="comment-body">
-											<div class="comment-heading">
-												<h4 class="comment-user-name">
-													<a href="#">Antony andrew lobghi</a>
-												</h4>
-												<h5 class="time">7 minutes ago</h5>
-											</div>
-											<p>This is a comment bla bla bla</p>
-										</div></li>
-									<li class="comment"><a class="pull-left" href="#"> <img
-											class="avatar" src="img/Friends/guy-2.jpg" alt="avatar">
-									</a>
-										<div class="comment-body">
-											<div class="comment-heading">
-												<h4 class="comment-user-name">
-													<a href="#">Jeferh Smith</a>
-												</h4>
-												<h5 class="time">3 minutes ago</h5>
-											</div>
-											<p>This is another comment bla bla bla</p>
-										</div></li>
-									<li class="comment"><a class="pull-left" href="#"> <img
-											class="avatar" src="img/Friends/woman-2.jpg" alt="avatar">
-									</a>
-										<div class="comment-body">
-											<div class="comment-heading">
-												<h4 class="comment-user-name">
-													<a href="#">Maria fernanda coronel</a>
-												</h4>
-												<h5 class="time">10 seconds ago</h5>
-											</div>
-											<p>Wow! so cool my friend</p>
-										</div></li>
-								</ul>
-							</div>
+
 						</div>
 					</div>
 					<?php
-						} } ?>
-					<div class="col-md-12">
-						<div class="panel panel-white post panel-shadow">
-							<div class="post-heading">
-								<div class="pull-left image">
-									<img src="img/Profile/profile.jpg" class="img-rounded avatar"
-										alt="user profile image">
-								</div>
-								<div class="pull-left meta">
-									<div class="title h5">
-										<a href="#" class="post-user-name">Nickson Bejarano</a> made a
-										post.
-									</div>
-									<h6 class="text-muted time">1 minute ago</h6>
-								</div>
-							</div>
-							<div class="post-description">
-								<p>Bootdey is a gallery of free snippets resources templates and
-									utilities for bootstrap css hmtl js framework. Codes for
-									developers and web designers</p>
-								<div class="stats">
-									<a href="#" class="btn btn-default stat-item"> <i
-										class="fa fa-thumbs-up icon"></i>2
-									</a> <a href="#" class="btn btn-default stat-item"> <i
-										class="fa fa-share icon"></i>12
-									</a>
-								</div>
-							</div>
-							<div class="post-footer">
-								<div class="input-group">
-									<input class="form-control" placeholder="Add a comment"
-										type="text"> <span class="input-group-addon"> <a href="#"><i
-											class="fa fa-edit"></i></a>
-									</span>
-								</div>
-								<ul class="comments-list">
-									<li class="comment"><a class="pull-left" href="#"> <img
-											class="avatar" src="img/Friends/guy-8.jpg" alt="avatar">
-									</a>
-										<div class="comment-body">
-											<div class="comment-heading">
-												<h4 class="comment-user-name">
-													<a href="#">Gavhin dahg martb</a>
-												</h4>
-												<h5 class="time">5 minutes ago</h5>
-											</div>
-											<p>This is a first comment</p>
-										</div>
-										<ul class="comments-list">
-											<li class="comment"><a class="pull-left" href="#"> <img
-													class="avatar" src="img/Friends/woman-5.jpg" alt="avatar">
-											</a>
-												<div class="comment-body">
-													<div class="comment-heading">
-														<h4 class="comment-user-name">
-															<a href="#">Ryanah Haywofd</a>
-														</h4>
-														<h5 class="time">3 minutes ago</h5>
-													</div>
-													<p>Relax my friend</p>
-												</div></li>
-											<li class="comment"><a class="pull-left" href="#"> <img
-													class="avatar" src="img/Friends/woman-7.jpg" alt="avatar">
-											</a>
-												<div class="comment-body">
-													<div class="comment-heading">
-														<h4 class="comment-user-name">
-															<a href="#">Maria dh heart</a>
-														</h4>
-														<h5 class="time">3 minutes ago</h5>
-													</div>
-													<p>Ok, cool.</p>
-												</div></li>
-										</ul></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="panel panel-white post panel-shadow">
-							<div class="post-heading">
-								<div class="pull-left image">
-									<img src="img/Profile/profile.jpg" class="img-rounded avatar"
-										alt="user profile image">
-								</div>
-								<div class="pull-left meta">
-									<div class="title h5">
-										<a href="#" class="post-user-name">Nickson Bejarano</a>
-										uploaded a photo.
-									</div>
-									<h6 class="text-muted time">5 seconds ago</h6>
-								</div>
-							</div>
-							<div class="post-image">
-								<img src="img/Post/staticmap.png" class="image show-in-modal"
-									alt="image post">
-							</div>
-							<div class="post-description">
-								<p>I am visiting a new place on the globe</p>
-								<div class="stats">
-									<a href="#" class="btn btn-default stat-item"> <i
-										class="fa fa-thumbs-up icon"></i> 228
-									</a> <a href="#" class="btn btn-default stat-item"> <i
-										class="fa fa-share icon"></i> 128
-									</a>
-								</div>
-							</div>
-							<div class="post-footer">
-								<div class="input-group">
-									<input class="form-control" placeholder="Add a comment"
-										type="text"> <span class="input-group-addon"> <a href="#"><i
-											class="fa fa-edit"></i></a>
-									</span>
-								</div>
-								<ul class="comments-list">
-									<li class="comment"><a class="pull-left" href="#"> <img
-											class="avatar" src="img/Friends/guy-4.jpg" alt="avatar">
-									</a>
-										<div class="comment-body">
-											<div class="comment-heading">
-												<h4 class="comment-user-name">
-													<a href="#">Markton contz</a>
-												</h4>
-												<h5 class="time">7 minutes ago</h5>
-											</div>
-											<p>this is a good place, and this is a comment</p>
-										</div></li>
-									<li class="comment"><a class="pull-left" href="#"> <img
-											class="avatar" src="img/Friends/woman-8.jpg" alt="avatar">
-									</a>
-										<div class="comment-body">
-											<div class="comment-heading">
-												<h4 class="comment-user-name">
-													<a href="#">Yira Cartmen</a>
-												</h4>
-												<h5 class="time">3 minutes ago</h5>
-											</div>
-											<p>Ya vamos llegando a penjamo, ja ja ja buena suerte!</p>
-										</div></li>
-									<li class="comment"><a class="pull-left" href="#"> <img
-											class="avatar" src="img/Friends/child-1.jpg" alt="avatar">
-									</a>
-										<div class="comment-body">
-											<div class="comment-heading">
-												<h4 class="comment-user-name">
-													<a href="#">Dora ty bluekl</a>
-												</h4>
-												<h5 class="time">10 seconds ago</h5>
-											</div>
-											<p>Friend, good luck!</p>
-										</div></li>
-								</ul>
-							</div>
-						</div>
-					</div>
+		}
+	}
+	?>
+					
+					
 				</div>
 			</div>
 		</div>
@@ -942,7 +754,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 <!-- Mirrored from demos.bootdey.com/dayday/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:50:32 GMT -->
 </html>
 <?php
-
 } else {
-	header ( "Location: index.php");
-}?>
+	header ( "Location: index.php" );
+}
+?>
