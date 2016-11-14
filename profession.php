@@ -119,7 +119,8 @@ if($checkUser){
                        </div>
                        
                        <div class="col-sm-2">
-                       <strong>Batch</strong> <select class="form-control" name="batch" required>
+                       <strong>Batch</strong> 
+                       <select class="form-control" name="batch"  >
                          <?php if($batch){
                        while($rows= $batch->fetch_assoc()){
                        	$batch_array[] = $rows['batch'];
@@ -132,7 +133,7 @@ if($checkUser){
                        </select>
                        </div>
                        <div class="col-sm-2">
-                       <strong>Section</strong> <select class="form-control" name="section" required>
+                       <strong>Section</strong> <select class="form-control" name="section" >
                        <?php if($section){
                        while($rows= $section->fetch_assoc()){
                        	$section_array[] = $rows['sections'];
@@ -220,7 +221,7 @@ if($checkUser){
                      
                       <input type="submit" name="add_Course"  value="Add Course" class="btn  btn-primary"> &nbsp; &nbsp; &nbsp;
                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                       <a href="google.com"  class="btn  btn-default"> Next </a>     
+                       <a href="logout.php?message=profile complete start login"  class="btn  btn-default"> Next </a>     
                       </div>
                       <?php }else{?>
                    <div class="col-sm-12">

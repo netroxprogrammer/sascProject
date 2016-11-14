@@ -1,8 +1,31 @@
 <?php session_start(); ?>
-<?php include_once 'includes/header.php';?>
 <?php include_once 'config/config.php';?>
 <?php include_once 'libraries/Database.php';?>
 <?php include_once 'libraries/Upload.php';?>
+<html>
+  
+<!-- Mirrored from demos.bootdey.com/dayday/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:51:13 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="bootstrap social network template">
+    <meta name="author" content="">
+    <title>Day-Day Social Network</title>
+
+    <link href="bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="font-awesome-4.3.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" media="screen" />
+    <link href="assets/css/creative/gsdk-base.css" rel="stylesheet" />  
+    <link href="assets/css/dayday/register.css" rel="stylesheet" />  
+
+    <script src="assets/js/creative/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="bootstrap-3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/js/creative/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+    <script src="assets/js/creative/wizard.js" type="text/javascript"></script>
+    <link rel="shortcut icon" href="img/favicon.png">
+  </head>
+
 <?php 
 
 
@@ -88,7 +111,7 @@ if(isset($_POST['submit_profile'])){
                         </div>
                       </div>
                              
-                       <div class="col-sm-3">
+                       <div class="col-sm-3 col-sm-offset-4">
                        <strong>Role</strong> <select class="form-control" name="role">
                          <?php if($roles){
                        while($rows= $roles->fetch_assoc()){

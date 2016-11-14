@@ -1,12 +1,11 @@
 <?php session_start(); ?>
 <?php  include_once 'config/config.php'; ?>
+<?php include_once 'config/Settings.php';?>
 <?php  include_once 'libraries/Database.php';?>
 <?php include_once 'libraries/Upload.php';?>
 <?php
-
 $database = new Database ();
 $uploadImage = new Upload ();
-
 if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 	$userId = $_SESSION ['userId'];
 	$firstName = $_SESSION ['firstName'];
@@ -101,30 +100,12 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 				</div>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-expanded="true"> <i
-							class="fa fa-home"></i>Pages <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="home.html">Home</a></li>
-							<li><a href="index-2.html">Timeline 1</a></li>
-							<li><a href="time-line2.html">Timeline 2</a></li>
-							<li><a href="blank-profile.html">Blank profile</a></li>
-							<li><a href="register.html">Register</a></li>
-							<li><a href="login.html">Login</a></li>
-							<li><a href="error404.html">Error 404</a></li>
-							<li><a href="error500.html">Error 500</a></li>
-						</ul></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-expanded="true"> <i
-							class="fa fa-user"></i>Nickson <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">One option</a></li>
-							<li><a href="#">Another option</a></li>
-							<li class="divider"></li>
-							<li><a href="home.php">Profile</a></li>
-							<li><a href="logout.php">Logout</a></li>
-						</ul></li>
+				
+							
+					
 					<li><a href="#" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
+				<li><a href="logout.php?message=logout sucessfully" class="nav-controller"><i class="fa fa-comment"></i>Logout</a></li>
+				
 				</ul>
 			</div>
 		</div>
@@ -471,7 +452,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 										<div class="picture-container">
 											<div class="picture">
 
-												<img src="" width="20%" class="picture-src"
+												<img src="" width="20%" height="8% class="picture-src"
 													id="wizardPicturePreview" title="" /> <input type="file"
 													id="wizard-picture" name="file">
 											</div>
@@ -479,6 +460,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 									</li>
 									<input type="submit" class="btn btn-primary pull-right"
 										name="post_status" value="Post">
+										<br><br>
 									<select class="selectpicker show-menu-arrow" name="privacy">
 										<option>private</option>
 										<option>public</option>
@@ -500,8 +482,19 @@ if ($allPost) {
 						<div class="panel panel-white post panel-shadow">
 							<div class="post-heading">
 								<div class="pull-left image">
-									<img src="img/Profile/profile.jpg" class="img-rounded avatar"
-										alt="user profile image">
+								  <?php  
+								  $postuserId=$rows['userId'];
+								  $profile = $database->getDataList ( "select *from  profile where  userId=52");
+								  if($profile){
+								  $prof = $profile->fetch_assoc();
+								  ?>
+									<img src="<?php echo $prof['profileImage']; ?>" class="img-rounded avatar"
+									alt="user profile image">
+										<?php }else{?>
+									<img src="<?php echo SITEURL."img/Profile/default-avatar.png"; ?>" class="img-rounded avatar"
+									alt="user profile image">
+										
+										<?php }?>
 								</div>
 								<div class="pull-left meta">
 									<div class="title h5">
@@ -532,7 +525,30 @@ if ($allPost) {
 									</a>
 								</div>
 							</div>
-
+							<form>
+							<div class="post-footer">
+                  <div class="input-group"> 
+                      <input class="form-control" name="comment_msg" placeholder="Add a comment" type="text">
+                      <span class="input-group-addon">
+                         <button  type="submit" class="btn btn-default btn-xs"  name="post_comment" value="postc"> <i class="fa fa-edit"></i></button>  
+                      </span>
+                  </div>
+                  <ul class="comments-list">
+                      <li class="comment">
+                          <a class="pull-left" href="#">
+                              <img class="avatar" src="img/Friends/guy-4.jpg" alt="avatar">
+                          </a>
+                          <div class="comment-body">
+                              <div class="comment-heading">
+                                  <h4 class="comment-user-name"><a href="#">Markton contz</a></h4>
+                                  <h5 class="time">7 minutes ago</h5>
+                              </div>
+                              <p>this is a good place, and this is a comment</p>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+					</form>
 						</div>
 					</div>
 					<?php
