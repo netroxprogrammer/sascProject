@@ -4,6 +4,7 @@
 <?php  include_once 'libraries/Database.php';?>
 <?php include_once 'libraries/Upload.php';?>
 <?php
+
 $database = new Database ();
 $uploadImage = new Upload ();
 if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
@@ -28,7 +29,28 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 		}
 	}
 	$allPost = $database->getDataList ( "select *from posts where  userId='$userId'  ORDER BY  postId DESC" );
+	
 	?>
+		<?php
+			 if (isset($_POST['comment_p']) && isset($_POST['comment_msg']) && !empty($_POST['comment_msg'])) {
+			  	$postId= $_POST['postIdd'];
+				$message= $_POST['comment_msg'];
+				//$comment_msg = $_GET ['comment_msg'];
+				$reciverId = $_POST['userIdd'];
+				$strc = "insert into comment(postid,senderUserId,message,reciverUserId) values('$postId','$userId','$message','$reciverId')";
+				$resultC=  $database->addUserData($strc);
+				if($resultC){
+				?>
+				<script type="text/javascript">
+				//window.location="home.php";
+				</script>
+				<?php 
+				}
+				else{
+					
+				}
+			}
+			?>
 <!DOCTYPE html>
 <html>
 <!-- Mirrored from demos.bootdey.com/dayday/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:49:24 GMT -->
@@ -65,6 +87,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 <script src="bootstrap-3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="assets/js/creative/jquery.bootstrap.wizard.js"
 	type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="assets/js/creative/wizard.js" type="text/javascript"></script>
 <link rel="shortcut icon" href="img/favicon.png">
 </head>
@@ -100,12 +123,13 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 				</div>
 
 				<ul class="nav navbar-nav navbar-right">
-				
-							
-					
+
+
+
 					<li><a href="#" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
-				<li><a href="logout.php?message=logout sucessfully" class="nav-controller"><i class="fa fa-comment"></i>Logout</a></li>
-				
+					<li><a href="logout.php?message=logout sucessfully"
+						class="nav-controller"><i class="fa fa-comment"></i>Logout</a></li>
+
 				</ul>
 			</div>
 		</div>
@@ -452,15 +476,18 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 										<div class="picture-container">
 											<div class="picture">
 
-												<img src="" width="20%" height="8% class="picture-src"
-													id="wizardPicturePreview" title="" /> <input type="file"
-													id="wizard-picture" name="file">
+												<img src="" width="20%" height="8% class="
+													picture-src"
+													id="wizardPicturePreview"
+													title="" /> <input type="file" id="wizard-picture"
+													name="file">
 											</div>
 										</div>
 									</li>
 									<input type="submit" class="btn btn-primary pull-right"
 										name="post_status" value="Post">
-										<br><br>
+									<br>
+									<br>
 									<select class="selectpicker show-menu-arrow" name="privacy">
 										<option>private</option>
 										<option>public</option>
@@ -474,7 +501,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 					</div>
 					<?php
 	
-if ($allPost) {
+	if ($allPost) {
 		while ( $rows = $allPost->fetch_assoc () ) {
 			
 			?>
@@ -482,17 +509,18 @@ if ($allPost) {
 						<div class="panel panel-white post panel-shadow">
 							<div class="post-heading">
 								<div class="pull-left image">
-								  <?php  
-								  $postuserId=$rows['userId'];
-								  $profile = $database->getDataList ( "select *from  profile where  userId=52");
-								  if($profile){
-								  $prof = $profile->fetch_assoc();
-								  ?>
-									<img src="<?php echo $prof['profileImage']; ?>" class="img-rounded avatar"
-									alt="user profile image">
+								  <?php
+			$postuserId = $rows ['userId'];
+			$profile = $database->getDataList ( "select *from  profile where  userId='$postuserId'" );
+			if ($profile) {
+				$prof = $profile->fetch_assoc ();
+				?>
+									<img src="<?php echo $prof['profileImage']; ?>"
+										class="img-rounded avatar" alt="user profile image">
 										<?php }else{?>
-									<img src="<?php echo SITEURL."img/Profile/default-avatar.png"; ?>" class="img-rounded avatar"
-									alt="user profile image">
+									<img
+										src="<?php echo SITEURL."img/Profile/default-avatar.png"; ?>"
+										class="img-rounded avatar" alt="user profile image">
 										
 										<?php }?>
 								</div>
@@ -518,37 +546,74 @@ if ($allPost) {
 
 								<p><?php echo $rows['status']; ?></p>
 								<div class="stats">
-									<a href="#" class="btn btn-default stat-item"> <i
-										class="fa fa-thumbs-up icon"></i> 228
-									</a> <a href="#" class="btn btn-default stat-item"> <i
-										class="fa fa-share icon"></i> 128
+								   <?php 
+								  $pid= $rows['postId'];
+								    $res = $database->getDataList("select sum(numberOfLikes) as idd from poststatus where userId='$userId'
+								    		and postId='$pid' ");
+								    if($res){
+								    $likes = $res->fetch_assoc();
+								   ?>
+									<a href="sendData.php?like=1&postId=<?php echo $rows['postId'];  ?>
+									 & senderId=<?php echo $userId;?>&recvierId=<?php echo $rows['userId'];?>" class="btn btn-default stat-item"  > <i
+										class="fa fa-thumbs-up icon"></i> <?php  echo $likes['idd']; ?>
+										
+								    <?php }?>
+								    
+									</a> 
+									 <?php 
+								  $pid= $rows['postId'];
+								    $res = $database->getDataList("select sum(numberOfDisLikes) as idd from poststatus where userId='$userId'
+								    		and postId='$pid' ");
+								    if($res){
+								    $dislikes = $res->fetch_assoc();
+								   ?>
+									<a href="sendDisLikes.php?dislike=1&postId=<?php echo $rows['postId'];  ?>
+									 & senderId=<?php echo $userId;?>&recvierId=<?php echo $rows['userId'];?>" class="btn btn-default stat-item " disabled> <i
+										class="fa fa-thumbs-down icon"></i> <?php echo $dislikes['idd']; ?>
 									</a>
+									<?php }?>
 								</div>
 							</div>
-							<form>
-							<div class="post-footer">
-                  <div class="input-group"> 
-                      <input class="form-control" name="comment_msg" placeholder="Add a comment" type="text">
-                      <span class="input-group-addon">
-                         <button  type="submit" class="btn btn-default btn-xs"  name="post_comment" value="postc"> <i class="fa fa-edit"></i></button>  
-                      </span>
-                  </div>
-                  <ul class="comments-list">
-                      <li class="comment">
-                          <a class="pull-left" href="#">
-                              <img class="avatar" src="img/Friends/guy-4.jpg" alt="avatar">
-                          </a>
-                          <div class="comment-body">
-                              <div class="comment-heading">
-                                  <h4 class="comment-user-name"><a href="#">Markton contz</a></h4>
-                                  <h5 class="time">7 minutes ago</h5>
-                              </div>
-                              <p>this is a good place, and this is a comment</p>
-                          </div>
-                      </li>
-                  </ul>
-              </div>
-					</form>
+						
+							<form method='post'>
+								<div class="post-footer">
+									<div class="input-group">
+										<input class="form-control" name="comment_msg"
+											placeholder="Add a comment" type="text"> <span
+											class="input-group-addon">
+											<input type="submit" class="btn btn-default btn-xs"
+												name="comment_p" value="post">
+												
+											
+										</span>
+										<input type="hidden" name="postIdd" value="<?php echo $rows['postId'];?>" >
+										<input type="hidden" name="userIdd" value="<?php echo $rows['userId'];?>" >
+									</div>
+									</form>
+									<?php 
+									$id = $rows['postId'];
+									 $getcomment = "select *from comment where postId='$id'";
+									 $comnt = $database->getDataList($getcomment);
+									 if($comnt){
+									 while($row=$comnt->fetch_assoc()){
+									?>
+									<ul class="comments-list">
+										<li class="comment"><a class="pull-left" href="#"> <img
+												class="avatar" src="img/Friends/guy-4.jpg" alt="avatar">
+										</a>
+											<div class="comment-body">
+												<div class="comment-heading">
+													<h4 class="comment-user-name">
+														<a href="#">Markton contz</a>
+													</h4>
+													<h5 class="time"><?php  echo date('H:i', strtotime($row['time'])); ?></h5>
+												</div>
+												<p><?php echo $row['message'];?></p>
+											</div></li>
+									</ul>
+									<?php }}?>
+								</div>
+							
 						</div>
 					</div>
 					<?php

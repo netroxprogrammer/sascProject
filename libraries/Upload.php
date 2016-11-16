@@ -1,4 +1,4 @@
-$name=$_POST['name'];<?php
+<?php
 class Upload{
 	
 	function uploadImage(){

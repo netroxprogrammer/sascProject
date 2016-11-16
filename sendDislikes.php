@@ -6,8 +6,8 @@
 
 $database = new Database ();
 
-if($_GET['like']){
-	$id =$_GET['like'];
+if($_GET['dislike']){
+	$id =$_GET['dislike'];
 $postId = $_GET['postId'];
 $senderId = $_GET['senderId'];
 $recvierId = $_GET['recvierId'];
@@ -16,7 +16,7 @@ $recvierId = $_GET['recvierId'];
 
 	//$data = $count->fetch_assoc();
 	//$c = $data['id'];
-$str ="insert  into  poststatus(postId,userId,numberOfLikes,senderId) 
+$str ="insert  into  poststatus(postId,userId,numberOfDisLikes,senderId) 
 values('$postId','$recvierId',1,'$senderId')";
 
 
@@ -24,6 +24,7 @@ values('$postId','$recvierId',1,'$senderId')";
 
 
 $addlikes = $database->addUserData($str);
+
 
 header("Location: home.php");
 }
