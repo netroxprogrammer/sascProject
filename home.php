@@ -87,7 +87,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 <script src="bootstrap-3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="assets/js/creative/jquery.bootstrap.wizard.js"
 	type="text/javascript"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	
 <script src="assets/js/creative/wizard.js" type="text/javascript"></script>
 <link rel="shortcut icon" href="img/favicon.png">
 </head>
@@ -325,6 +325,13 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 						</div>
 					</div>
 					<div class="col-md-12">
+							<?php 
+									$ph= "select *from posts  where userId='$userId' and  image <> 'upload/' LIMIT 6 ";
+								    $photo = $database->getDataList($ph);
+								    if($photo){
+								    	
+									?>
+									
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<a href="#" class="pull-right">View all&nbsp;<i
@@ -333,29 +340,19 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 									<i class="fa fa-image"></i>&nbsp;Photos
 								</h3>
 							</div>
+							
 							<div class="panel-body text-center">
 								<ul class="photos">
-									<li><a href="#"> <img src="img/Photos/1.jpg" alt="photo 1"
-											class="img-responsive show-in-modal">
+								<?php  while ($phot = $photo->fetch_assoc()){ ?>
+									<li><a href="#"> <img src="<?php echo $phot['image']; ?>"    alt="<?php echo $phot['userName']; ?>"
+											class="img-responsive show-in-modal"  style="width:100%;  height:0% " >
 									</a></li>
-									<li><a href="#"> <img src="img/Photos/2.jpg" alt="photo 2"
-											class="img-responsive show-in-modal">
-									</a></li>
-									<li><a href="#"> <img src="img/Photos/3.jpg" alt="photo 3"
-											class="img-responsive show-in-modal">
-									</a></li>
-									<li><a href="#"> <img src="img/Photos/4.jpg" alt="photo 4"
-											class="img-responsive show-in-modal">
-									</a></li>
-									<li><a href="#"> <img src="img/Photos/5.jpg" alt="photo 5"
-											class="img-responsive show-in-modal">
-									</a></li>
-									<li><a href="#"> <img src="img/Photos/6.jpg" alt="photo 6"
-											class="img-responsive show-in-modal">
-									</a></li>
+									<?php }?>
+									
 								</ul>
 							</div>
 						</div>
+						<?php }?>
 					</div>
 					<div class="col-md-12 hidden-xs">
 						<div class="panel panel-default panel-movies">
@@ -476,9 +473,8 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 										<div class="picture-container">
 											<div class="picture">
 
-												<img src="" width="20%" height="8% class="
-													picture-src"
-													id="wizardPicturePreview"
+												<img src="" width="20%" height="8%" class="picture-src"
+													id="wizardPicturePreview" 
 													title="" /> <input type="file" id="wizard-picture"
 													name="file">
 											</div>
@@ -552,12 +548,24 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 								    		and postId='$pid' ");
 								    if($res){
 								    $likes = $res->fetch_assoc();
-								   ?>
+								    $dis  ="select *from poststatus where postId='$pid'  and userId='$userId' and numberOfLikes=1";
+								    $check = $database->isDataExist($dis);
+								    if($check){
+								    
+								    ?>
 									<a href="sendData.php?like=1&postId=<?php echo $rows['postId'];  ?>
+									 & senderId=<?php echo $userId;?>&recvierId=<?php echo $rows['userId'];?>" class="btn btn-default stat-item"  disabled> <i
+										class="fa fa-thumbs-up icon"></i> <?php  echo $likes['idd']; ?>
+										
+								    <?php }
+								    else{?>
+								    	
+								    	<a href="sendData.php?like=1&postId=<?php echo $rows['postId'];  ?>
 									 & senderId=<?php echo $userId;?>&recvierId=<?php echo $rows['userId'];?>" class="btn btn-default stat-item"  > <i
 										class="fa fa-thumbs-up icon"></i> <?php  echo $likes['idd']; ?>
 										
-								    <?php }?>
+								   <?php  }
+								    }?>
 								    
 									</a> 
 									 <?php 
@@ -566,12 +574,25 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 								    		and postId='$pid' ");
 								    if($res){
 								    $dislikes = $res->fetch_assoc();
-								   ?>
+								     $dis  ="select *from poststatus where postId='$pid'  and userId='$userId' and numberOfDisLikes=1";
+								     $check = $database->isDataExist($dis);
+								     if($check){
+								     	
+								    ?>
 									<a href="sendDisLikes.php?dislike=1&postId=<?php echo $rows['postId'];  ?>
 									 & senderId=<?php echo $userId;?>&recvierId=<?php echo $rows['userId'];?>" class="btn btn-default stat-item " disabled> <i
 										class="fa fa-thumbs-down icon"></i> <?php echo $dislikes['idd']; ?>
 									</a>
-									<?php }?>
+									<?php }
+									else{?>
+										<a href="sendDisLikes.php?dislike=1&postId=<?php echo $rows['postId'];  ?>
+												& senderId=<?php echo $userId;?>&recvierId=<?php echo $rows['userId'];?>" class="btn btn-default stat-item " > <i
+																				class="fa fa-thumbs-down icon"></i> <?php echo $dislikes['idd']; ?>
+																			</a>
+							<?php 
+											}
+									
+								     }?>
 								</div>
 							</div>
 						
