@@ -27,6 +27,6 @@
      <script src="bootstrap-3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="assets/js/dayday/dayday.js"></script>
     <script type="text/javascript" src="assets/js/jquery.min.js"></script> 
-	 
+	  <link href="assets/css/dayday/photos.css" rel="stylesheet" media="screen">
     <link rel="shortcut icon" href="img/favicon.png">
   </head>
