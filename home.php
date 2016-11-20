@@ -3,7 +3,9 @@
 <?php include_once 'config/Settings.php';?>
 <?php  include_once 'libraries/Database.php';?>
 <?php include_once 'libraries/Upload.php';?>
-<?php
+
+    
+    <?php
 
 $database = new Database ();
 $uploadImage = new Upload ();
@@ -51,46 +53,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 				}
 			}
 			?>
-<!DOCTYPE html>
-<html>
-<!-- Mirrored from demos.bootdey.com/dayday/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:49:24 GMT -->
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="bootstrap social network template">
-<meta name="author" content="">
-<title>Day-Day social network</title>
-
-<link href="bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet"
-	media="screen">
-<link href="font-awesome-4.3.0/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
-<link href="assets/css/animate.min.css" rel="stylesheet" media="screen">
-<link href="assets/css/dayday/dayday.css" rel="stylesheet"
-	media="screen">
-<link href="assets/css/dayday/timeline.css" rel="stylesheet"
-	media="screen">
-<link href="assets/css/dayday/big-cover.css" rel="stylesheet"
-	media="screen">
-<script type="text/javascript" src="assets/js/jquery.min.js"></script>
-<script type="text/javascript" src="bootstrap-3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/js/dayday/dayday.js"></script>
-
-<link href="bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet" />
-<link href="font-awesome-4.3.0/css/font-awesome.css" rel="stylesheet" />
-<link href="assets/css/animate.min.css" rel="stylesheet" media="screen" />
-<link href="assets/css/creative/gsdk-base.css" rel="stylesheet" />
-<link href="assets/css/dayday/register.css" rel="stylesheet" />
-
-<script src="assets/js/creative/jquery-1.10.2.js" type="text/javascript"></script>
-<script src="bootstrap-3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="assets/js/creative/jquery.bootstrap.wizard.js"
-	type="text/javascript"></script>
-	
-<script src="assets/js/creative/wizard.js" type="text/javascript"></script>
-<link rel="shortcut icon" href="img/favicon.png">
-</head>
+<?php include_once 'elements/HomeElem.php'; ?>
 <body>
 
 	<nav class="navbar navbar-fixed-top navbar-default navbar-principal"
@@ -174,11 +137,8 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 							</div>
 							<div class="collapse navbar-collapse" id="profile-opts-navbar">
 								<ul class="nav navbar-nav navbar-right">
-									<li class="active"><a href="#"><i class="fa fa-tasks"></i>Timeline</a></li>
-									<li><a href="about.html"><i class="fa fa-info-circle"></i>About</a></li>
-									<li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
-									<li><a href="photos.html"><i class="fa fa-file-image-o"></i>Photos</a></li>
-									<li><a href="messages.html"><i class="fa fa-comment"></i>Messages</a></li>
+                                                                    <!-- add Menu -->
+									<?php include_once 'elements/Menus.php'; ?>
 								</ul>
 							</div>
 						</div>

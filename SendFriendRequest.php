@@ -127,25 +127,14 @@ $users = $database->getDataList("Select *from users");
                         <a href="sendFriendRequest.php" class="panel-title" > <i class="fa fa-search"> </i>&nbsp;&nbsp;Find Friends</a>
                       
                   </div>
-                    
                   <!-- friend 1 -->
-
-                  <?php 
-                      
-                       $findRequest = $database->getDataList("select *from sendfriendrequest");
-                       if($findRequest){
-                           while ($requestRow = $findRequest->fetch_assoc()){
-                               $senderId  = $requestRow['senderId'];
-                      
-                     
-
-                       if($users){
+                  <?php  if($users){
                       while($userRow= $users->fetch_assoc()){
                       $profileTable = PROFILETABLE;
                       $userIds = $userRow['userId']; 
                       
                       $userId= $_SESSION['userId'];
-                      $userImages = $database->getDataList("Select *from profile where userId='$senderId' and userId<>'$userId'");
+                      $userImages = $database->getDataList("Select *from profile where userId='$userIds' and userId<>'$userId'");
                       if($userImages){
                       $profileRow = $userImages->fetch_assoc();
                    ?>
@@ -155,27 +144,23 @@ $users = $database->getDataList("Select *from users");
                         <img class="media-object update-card-MDimentions" src="<?php echo $profileRow['profileImage']; ?>" 
                              alt="<?php  echo $userRow['firstName']. $userRow['lastName']; ?>">
                       </a>
+                        
                       <div class="media-body update-card-body">
                         <h4 class="media-heading"><?php  echo $userRow['firstName']." ". $userRow['lastName']; ?></h4>
                         <div class="btn-toolbar card-body-social" role="toolbar">
-                          <a class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message"></a>
-                          <a class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Add Friend "></a>
+                            <?php 
+                            $friendId = $userRow['userId'];
+                              
+                            ?>
+                            <a href="" class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message"></a>
+                            <a  href="sendRequest.php?senderId=<?php echo $userId ?>&friendId=<?php echo $friendId ?>" class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Add Friend "></a>
                         </div>
                       </div>
                     </div> 
                   </div><!-- end friend 1-->
                   <?php
-                  }else{ ?>
-                      
-                  <h3>Sorry  no one find Your Friends</h3>
-                      <?php
-                  break;}
+                  }
                       }
-                               
-                           }
-                       }
-                      
-                         
                   }
                   ?>
                  

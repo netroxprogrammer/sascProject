@@ -10,7 +10,7 @@ $database = new Database();
 <!DOCTYPE html>
 <html>
   
-<!-- Mirrored from demos.bootdey.com/dayday/photos.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:51:30 GMT -->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -117,11 +117,8 @@ $database = new Database();
 							</div>
 							<div class="collapse navbar-collapse" id="profile-opts-navbar">
 								<ul class="nav navbar-nav navbar-right">
-									<li class="active"><a href="#"><i class="fa fa-tasks"></i>Timeline</a></li>
-									<li><a href="about.html"><i class="fa fa-info-circle"></i>About</a></li>
-									<li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
-									<li><a href="photos.html"><i class="fa fa-file-image-o"></i>Photos</a></li>
-									<li><a href="messages.html"><i class="fa fa-comment"></i>Messages</a></li>
+								  <!-- add Menu -->
+									<?php include_once 'elements/Menus.php'; ?>
 								</ul>
 							</div>
 						</div>
