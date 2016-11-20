@@ -6,7 +6,7 @@
 <?php
 $usersTable = USERSTABLE;
 $database = new Database();
-$users = $database->getDataList("Select *from users");
+
 
 ?>
 <?php include_once 'elements/FindFriendElem.php'; ?>
@@ -132,20 +132,20 @@ $users = $database->getDataList("Select *from users");
 
                   <?php 
                       $userId = $_SESSION['userId'];
-                       $findRequest = $database->getDataList("select *from sendfriendrequest where senderid='$userId' and status='yes'");
+                       $findRequest = $database->getDataList("select *from sendfriendrequest where friendId='$userId' and status='no'");
                        if($findRequest){
                            while ($requestRow = $findRequest->fetch_assoc()){
-                               $senderId  = $requestRow['senderId'];
+                               $friendId  = $requestRow['friendId'];
+                               $senderId =  $requestRow['senderId'];      
                       
-                     
-
+                       $users = $database->getDataList("Select *from users where userId = '$senderId'");
                        if($users){
                       while($userRow= $users->fetch_assoc()){
                       $profileTable = PROFILETABLE;
                       $userIds = $userRow['userId']; 
                       
                       $userId= $_SESSION['userId'];
-                      $userImages = $database->getDataList("Select *from profile where userId='$senderId' and userId<>'$userId'");
+                      $userImages = $database->getDataList("Select *from profile where userId='$userIds'");
                       if($userImages){
                       $profileRow = $userImages->fetch_assoc();
                    ?>
@@ -158,9 +158,7 @@ $users = $database->getDataList("Select *from users");
                       <div class="media-body update-card-body">
                         <h4 class="media-heading"><?php  echo $userRow['firstName']." ". $userRow['lastName']; ?></h4>
                         <div class="btn-toolbar card-body-social" role="toolbar">
-                          <a class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message"></a>
-                          
-                          <a class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Add Friend "></a>
+                            <a href="" class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Add Friend "></a>
                         </div>
                       </div>
                     </div> 

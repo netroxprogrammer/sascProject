@@ -3,7 +3,29 @@
 <?php include_once 'config/Settings.php';?>
 <?php  include_once 'libraries/Database.php';?>
 <?php include_once 'libraries/Upload.php';?>
+<script>
 
+var inProcess = false;//Just to make sure that the last ajax call is not in process
+setTimeout( function () {
+    if (inProcess) {
+        return false;//Another request is active, decline timer call ...
+    }
+    inProcess = true;//make it burn ;)
+    jQuery.ajax({
+        url: 'countRequest.php', //Define your script url here ...
+        data: '', //Pass some data if you need to
+        method: 'POST', //Makes sense only if you passing data
+        success: function(answer) {
+            jQuery('#request').html(answer);//update your div with new content, yey ....
+            inProcess = false;//Queue is free, guys ;)
+        },
+        error: function() {
+            //unknown error occorupted
+            inProcess = false;//Queue is free, guys ;)
+        }
+    });
+}, 500 );
+</script>
     
     <?php
 
@@ -86,8 +108,19 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 				</div>
 
 				<ul class="nav navbar-nav navbar-right">
-
-
+                                  
+                             <li><a href="acceptRequests.php"><i class="fa fa-user"> </i><span class="badge badge-error "  
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Requests"><div id="request">0</div></span></a></li> 
+                                 
+                              <li><a href="#"><i class="fa fa-envelope"> </i><span class="badge  "  
+                              data-toggle="tooltip" data-placement="bottom" title="Messages">2</span></a></li> 
+                              
+                                    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 
 					<li><a href="#" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
 					<li><a href="logout.php?message=logout sucessfully"
@@ -113,8 +146,13 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 	height: 315px;
 }
 </style>
+<?php  
+
+$getImage = $database->getDataList("select *from  profile where userId='$userId'");
+$image = $getImage->fetch_assoc();
+?>
 				<div class="cover-photo">
-					<img src="img/Profile/profile.jpg"
+					<img src="<?php  echo $image['profileImage']; ?>"
 						class="profile-photo img-thumbnail show-in-modal">
 					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
 				</div>

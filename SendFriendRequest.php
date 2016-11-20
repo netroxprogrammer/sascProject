@@ -112,7 +112,7 @@ $users = $database->getDataList("Select *from users");
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h3 class="panel-title">
-                    <i class="fa fa-users"></i>&nbsp; Friends
+                      <i class="fa fa-users"></i>&nbsp; <a href="findFriends.php">Friends</a>
                     
                   </h3>
                     
@@ -153,7 +153,23 @@ $users = $database->getDataList("Select *from users");
                               
                             ?>
                             <a href="" class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message"></a>
+                             
+                          <?php
+                            $checkRequestStatus = $database->getDataList("select *from sendfriendrequest where senderId='$userId' AND  "
+                                    . " friendId='$friendId' AND  status='no' ");
+                            if($checkRequestStatus){
+                           ?>
+                            
+                            <button  class="btn btn-default btn-xs primary ">Friend Request Send</button>
+                            <?php 
+                            
+                            }else{
+                               ?> 
                             <a  href="sendRequest.php?senderId=<?php echo $userId ?>&friendId=<?php echo $friendId ?>" class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Add Friend "></a>
+                           <?php
+                           }
+                            ?>
+                            
                         </div>
                       </div>
                     </div> 

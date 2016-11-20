@@ -34,7 +34,7 @@
 <script src="bootstrap-3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="assets/js/creative/jquery.bootstrap.wizard.js"
 	type="text/javascript"></script>
-	
+	  <link href="assets/css/dayday/friends.css" rel="stylesheet" media="screen">
 <script src="assets/js/creative/wizard.js" type="text/javascript"></script>
 <link rel="shortcut icon" href="img/favicon.png">
 </head>
