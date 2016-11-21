@@ -158,7 +158,10 @@ $database = new Database();
                       <div class="media-body update-card-body">
                         <h4 class="media-heading"><?php  echo $userRow['firstName']." ". $userRow['lastName']; ?></h4>
                         <div class="btn-toolbar card-body-social" role="toolbar">
-                            <a href="" class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Add Friend "></a>
+                            
+                            
+                            <a href="acctionOnRequest.php?action=accept&senderId=<?php echo $senderId; ?>"  class="btn btn-info btn-xs  ">Accept</a>
+                            <a href="acctionOnRequest.php?action=cancel"  class="btn btn-danger btn-xs ">Cancel</a>
                         </div>
                       </div>
                     </div> 

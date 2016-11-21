@@ -6,7 +6,6 @@
 <?php
 $usersTable = USERSTABLE;
 $database = new Database();
-$users = $database->getDataList("Select *from users");
 
 ?>
 <?php include_once 'elements/FindFriendElem.php'; ?>
@@ -132,22 +131,24 @@ $users = $database->getDataList("Select *from users");
 
                   <?php 
                       $userId = $_SESSION['userId'];
-                       $findRequest = $database->getDataList("select *from sendfriendrequest where senderid='$userId' and status='yes'");
+                       $findRequest = $database->getDataList("select *from sendfriendrequest where friendId='$userId' AND status='yes'");
                        if($findRequest){
                            while ($requestRow = $findRequest->fetch_assoc()){
                                $senderId  = $requestRow['senderId'];
                       
-                     
-
-                       if($users){
-                      while($userRow= $users->fetch_assoc()){
-                      $profileTable = PROFILETABLE;
-                      $userIds = $userRow['userId']; 
-                      
-                      $userId= $_SESSION['userId'];
                       $userImages = $database->getDataList("Select *from profile where userId='$senderId' and userId<>'$userId'");
                       if($userImages){
                       $profileRow = $userImages->fetch_assoc();
+                      
+                        $users = $database->getDataList("Select *from users where userId='$senderId'");
+
+                       if($users){
+                     $userRow= $users->fetch_assoc();
+                     $profileTable = PROFILETABLE;
+                      $userIds = $userRow['userId']; 
+                      
+                      $userId= $_SESSION['userId'];
+                     
                    ?>
                   <div class="col-md-6 cols-sm-12 col-xs-12">
                     <div class="media block-update-card">
@@ -160,7 +161,7 @@ $users = $database->getDataList("Select *from users");
                         <div class="btn-toolbar card-body-social" role="toolbar">
                           <a class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message"></a>
                           
-                          <a class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Add Friend "></a>
+                          <a class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Un Friend">UnFreind</a>
                         </div>
                       </div>
                     </div> 
@@ -170,11 +171,12 @@ $users = $database->getDataList("Select *from users");
                       
                  
                       <?php
-                  break;}
+                   }
                       }
-                               
                            }
-                       }
+                               
+                       //    }
+                     //  }
                       
                          
                   }
