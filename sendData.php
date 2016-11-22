@@ -25,6 +25,6 @@ values('$postId','$recvierId',1,'$senderId')";
 
 $addlikes = $database->addUserData($str);
 
-header("Location: home.php");
+header("Location: AllPosts.php");
 }
 	?>

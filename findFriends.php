@@ -161,8 +161,8 @@ $database = new Database();
                         <div class="btn-toolbar card-body-social" role="toolbar">
                           <a class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message"></a>
                           
-                          <a class="btn btn-default btn-xs primary fa fa-user-plus tip" title="Un Friend">UnFreind</a>
-                        </div>
+                             <a href="acctionOnRequest.php?action=unfriend&senderId=<?php echo $senderId; ?> "  class="btn btn-danger btn-xs ">Un Friend</a>
+                         </div>
                       </div>
                     </div> 
                   </div><!-- end friend 1-->

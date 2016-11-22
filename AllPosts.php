@@ -52,7 +52,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 			}
 		}
 	}
-	$allPost = $database->getDataList ( "select *from posts where  userId='$userId'  ORDER BY  postId DESC" );
+       
 	
 	?>
 		<?php
@@ -218,40 +218,27 @@ $image = $getImage->fetch_assoc();
 									<i class="fa fa-users"></i>&nbsp; Friends
 								</h3>
 							</div>
-                                                   <?php
-                                                   
-                                                $getFriendList =    $database->getDataList("Select *from sendfriendrequest  where  friendId='$userId' and status='yes'");
-                                                   
-                                                ?>
 							<div class="panel-body text-center">
 								<ul class="friends">
-                                                                    <?php
-                                                                    
-                                                                     if($getFriendList){
-                                                        while($getFRows=$getFriendList->fetch_assoc()){
-                                                            $sendId = $getFRows['senderId'];
-                                                        $getFrirndPhoto= $database->getDataList("Select *from profile where  userId='$sendId'");
-                                                             if($getFrirndPhoto){
-                                                                 $friendPhotoRow  =$getFrirndPhoto->fetch_assoc();
-                                                                    ?>
-									<li><a href="#"> <img src="<?php echo $friendPhotoRow['profileImage'] ?>"
+									<li><a href="#"> <img src="img/Friends/woman-4.jpg"
 											title="Jhoanath matew" class="img-responsive tip">
 									</a></li>
-                                                                        <?php
-                                                                          }
-                                                        }
-                                                             } else{
-                                                                 
-                                                                 
-                                                                     
-                                                                        ?>
-									
+									<li><a href="#"> <img src="img/Friends/woman-3.jpg"
+											title="Martha creawn" class="img-responsive tip">
+									</a></li>
+									<li><a href="#"> <img src="img/Friends/guy-2.jpg"
+											title="Jeferh smith" class="img-responsive tip">
+									</a></li>
+									<li><a href="#"> <img src="img/Friends/woman-9.jpg"
+											title="Linda palma" class="img-responsive tip">
+									</a></li>
+									<li><a href="#"> <img src="img/Friends/guy-9.jpg"
+											title="Lindo polmo" class="img-responsive tip">
+									</a></li>
+									<li><a href="#"> <img src="img/Friends/guy-5.jpg"
+											title="andrew cartson" class="img-responsive tip">
+									</a></li>
 								</ul>
-                                                            <div class="alert alert-danger" role="alert">
-                                                                <strong>No Friend</strong>
-            </div>
-                                                            <?php 
-                                                             }?>
 							</div>
 						</div>
 					</div>
@@ -507,8 +494,19 @@ $image = $getImage->fetch_assoc();
 						</div>
 					</div>
 					<?php
-	
-	if ($allPost) {
+	 $frinds = $database->getDataList("Select *from sendFriendRequest where  friendId='$userId' AND status='yes' ");
+         $users = $database->getDataList("Select *from users  where userId='$userId'");
+         
+        if($frinds)
+        {
+            
+            while($frindsRow = $frinds->fetch_assoc()){
+                $friendId  = $frindsRow['senderId'];
+                
+            $allPost = $database->getDataList ( "select *from posts   where userId='$friendId' || userId='$userId'   ORDER BY  postId DESC" );
+            
+            
+        if ($allPost) {
 		while ( $rows = $allPost->fetch_assoc () ) {
 			
 			?>
@@ -555,11 +553,11 @@ $image = $getImage->fetch_assoc();
 								<div class="stats">
 								   <?php 
 								  $pid= $rows['postId'];
-								    $res = $database->getDataList("select sum(numberOfLikes) as idd from poststatus where userId='$userId'
+								    $res = $database->getDataList("select sum(numberOfLikes) as idd from poststatus where userId='$postuserId'
 								    		and postId='$pid' ");
 								    if($res){
 								    $likes = $res->fetch_assoc();
-								    $dis  ="select *from poststatus where postId='$pid'  and userId='$userId' and numberOfLikes=1";
+								    $dis  ="select *from poststatus where postId='$pid'  and senderId='$userId'  and numberOfLikes=1";
 								    $check = $database->isDataExist($dis);
 								    if($check){
 								    
@@ -581,11 +579,11 @@ $image = $getImage->fetch_assoc();
 									</a> 
 									 <?php 
 								  $pid= $rows['postId'];
-								    $res = $database->getDataList("select sum(numberOfDisLikes) as idd from poststatus where userId='$userId'
+								    $res = $database->getDataList("select sum(numberOfDisLikes) as idd from poststatus where userId='$postuserId'
 								    		and postId='$pid' ");
 								    if($res){
 								    $dislikes = $res->fetch_assoc();
-								     $dis  ="select *from poststatus where postId='$pid'  and userId='$userId' and numberOfDisLikes=1";
+								     $dis  ="select *from poststatus where postId='$pid'  and senderId='$userId' and numberOfDisLikes=1";
 								     $check = $database->isDataExist($dis);
 								     if($check){
 								     	
@@ -651,6 +649,18 @@ $image = $getImage->fetch_assoc();
 					<?php
 		}
 	}
+        }
+        
+        }
+        else{?>
+         <div class="col-md-12">   
+            <div class="alert alert-danger" role="alert">
+  <strong>No Friend</strong> Sorry  You Have No Friends
+            </div></div>
+        <?php
+        
+        }
+	
 	?>
 					
 					
@@ -677,15 +687,15 @@ $image = $getImage->fetch_assoc();
 					resources for Bootstrap Html Css Js framework</p>
 			</div>
 			<div class="col-md-12 sponsor-list">
-				<img src="img/Sponsor/sponsor-2.png"
+				<img src="img/
+				<p class="sponsor-description">Gallery of free snippets and
+					resources for Bootstrap Html Css Js framework</p>
+			</div>Sponsor/sponsor-2.png"
 					class="img-responsive img-rounded show-in-modal">
 				<p class="sponsor-name">Bootdey</p>
 				<p class="sponsor-url">
 					<a href="http://bootdey.com/">bootdey.com</a>
 				</p>
-				<p class="sponsor-description">Gallery of free snippets and
-					resources for Bootstrap Html Css Js framework</p>
-			</div>
 		</div>
 	</div>
 	<div class="chat-sidebar focus">
