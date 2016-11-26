@@ -332,7 +332,7 @@ $image = $getImage->fetch_assoc();
 									
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<a href="#" class="pull-right">View all&nbsp;<i
+								<a href="viewAllPhoto.php" class="pull-right">View all&nbsp;<i
 									class="fa fa-share-square-o"></i></a>
 								<h3 class="panel-title">
 									<i class="fa fa-image"></i>&nbsp;Photos
@@ -343,14 +343,18 @@ $image = $getImage->fetch_assoc();
 								<ul class="photos">
 								<?php  while ($phot = $photo->fetch_assoc()){ ?>
 									<li><a href="#"> <img src="<?php echo $phot['image']; ?>"    alt="<?php echo $phot['userName']; ?>"
-											class="img-responsive show-in-modal"  style="width:100%;  height:0% " >
+											class="img-responsive show-in-modal"  style="width:100%;  height:20% " >
 									</a></li>
 									<?php }?>
 									
 								</ul>
 							</div>
 						</div>
-						<?php }?>
+						<?php }else{?>
+                                              <div class="alert alert-danger" role="alert">
+                                                                <strong>No Friend</strong>
+            </div>
+                                                <?php }?>
 					</div>
 					<div class="col-md-12 hidden-xs">
 						<div class="panel panel-default panel-movies">

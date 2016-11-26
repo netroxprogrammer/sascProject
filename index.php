@@ -29,9 +29,15 @@ if(isset($_POST['login'])){
 				$_SESSION['BMonth'] = $row['BMonth'];
 				$_SESSION['BYear'] = $row['BYear'];
 				$_SESSION['gender'] = $row['gender'];
-				
+                                
+                                if($row['userRole']=="coordinator"){
+                                   header("Location: others/index.php"); 
+                                }
+                                else{
+                                
 				header("Location: home.php");
 			}
+                        }
 			else{
 				header("Location: index.php?error=user Not Found");
 			}
@@ -120,5 +126,5 @@ else{
 	 }?>    
   </body>
 
-<!-- Mirrored from demos.bootdey.com/dayday/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:51:23 GMT -->
+
 </html>

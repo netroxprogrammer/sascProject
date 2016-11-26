@@ -27,7 +27,7 @@ if($checkUser){
 		              '$userId','$skills','$experiance','$extra')";
 			$result = $database->addUserData($str);
 			if($result){
-				header("Location: next.php?message=Sorry Course Not Add");
+				header("Location: logout.php?");
 			}
 			else{
 					header("Location: profession.php?message=Sorry Try Again");

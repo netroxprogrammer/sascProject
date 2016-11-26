@@ -14,14 +14,20 @@ if(isset($_SESSION['email'])){
 			  $vemail = $_POST['vemail'];
 			$result = $database->isDataExist("select *from users where userEmail='$vemail'");
 			if($result){
+                          $users =   $result->fetch_assoc();
 				$userId=  $_SESSION['userId'];
 				$tokken =  $_POST['tokken'];
+                                $role = $users['userRole'];
 				$str = "select *from emailverify where  userId='$userId' AND email = '$vemail' AND tokken='$tokken'";
 				$isTokken = $database->isDataExist($str);
 				if($isTokken){
                    $update = "update emailverify set verify='yes' where email='$vemail'";
                    $upd = $database->updateData($update);
                    if($upd){
+                       if($role=="coordinator"){
+                       header("Location: others/index.php");
+                           
+                       }
 					header("Location: profile.php");
 				}
 				}else{
