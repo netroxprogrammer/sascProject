@@ -79,22 +79,20 @@
 <li><a class="ajax-link" href="assignCourse.php"><i class="glyphicon glyphicon-eye-open"></i><span>&nbsp;Assign Courses</span></a>
 </li>
 <li><a class="ajax-link" href="uploadTimeTable.php"><i class="glyphicon glyphicon-time"></i><span> Upload Time Table</span></a></li>
-<li><a class="ajax-link" href="chart.html"><i class="glyphicon glyphicon-list-alt"></i><span> Charts</span></a>
+<li><a class="ajax-link" href="NewsUpdates.php"><i class="glyphicon glyphicon-globe"></i><span> News Updates</span></a>
 </li>
-<li><a class="ajax-link" href="typography.html"><i class="glyphicon glyphicon-font"></i><span> Typography</span></a>
+<li><a class="ajax-link" href="uploadDateSheet.php"><i class=" glyphicon glyphicon-upload"></i><span> Upload Date Sheet</span></a>
 </li>
-<li><a class="ajax-link" href="gallery.html"><i class="glyphicon glyphicon-picture"></i><span> Gallery</span></a>
-</li>
-<li class="nav-header hidden-md">Sample Section</li>
-<li><a class="ajax-link" href="table.html"><i class="glyphicon glyphicon-align-justify"></i><span> Tables</span></a></li>
+<li class="nav-header hidden-md">View/Edit Sections</li>
+<li><a class="ajax-link" href="ViewAssignCourses.php"><i class="glyphicon glyphicon-eye-open"></i><span>View Assign Courses</span></a></li>
 <li class="accordion">
-<a href="#"><i class="glyphicon glyphicon-plus"></i><span> Accordion Menu</span></a>
+<a href="ViewTimeTable.php"><i class="glyphicon glyphicon-plus"></i><span> View Time Table</span></a>
 <ul class="nav nav-pills nav-stacked">
 <li><a href="#">Child Menu 1</a></li>
 <li><a href="#">Child Menu 2</a></li>
 </ul>
 </li>
-<li><a class="ajax-link" href="calendar.html"><i class="glyphicon glyphicon-calendar"></i><span> Calendar</span></a>
+<li><a class="ajax-link" href=".php"><i class="glyphicon glyphicon-calendar"></i><span> Calendar</span></a>
 </li>
 <li><a class="ajax-link" href="grid.html"><i class="glyphicon glyphicon-th"></i><span> Grid</span></a></li>
 <li><a href="tour.html"><i class="glyphicon glyphicon-globe"></i><span> Tour</span></a></li>

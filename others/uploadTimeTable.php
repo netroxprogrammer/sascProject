@@ -10,21 +10,73 @@ $database = new Database();
 if(isset($_POST['addtimetable'])){
 
     if(isset($_POST['select_courses']) || !empty($_POST['select_courses'])
-            && isset($_POST['select_courses']) || !empty($_POST['select_courses'])
+          
             && isset($_POST['class_time']) || !empty($_POST['class_time'])
-            && isset($_POST['select_subject']) || !empty($_POST['select_subject'])
+            && isset($_POST['select_program']) || !empty($_POST['select_program'])
             && isset($_POST['select_section']) || !empty($_POST['select_section'])
-            && isset($_POST['select_batch']) || !empty($_POST['select_batch'])){
+            && isset($_POST['select_batch']) || !empty($_POST['select_batch'])
+             && isset($_POST['select_className']) || !empty($_POST['select_className'])
+             && isset($_POST['select_day']) || !empty($_POST['select_day'])
+            ){
         
      $selectCourse =  $_POST['select_courses'];
-     $claasTime =  $_POST['class_time'];
-     $selectSubject = $_POST['select_subject'];
+     $classTime =  $_POST['class_time'];
+     $selectProgram = $_POST['select_program'];
      $selectSection =  $_POST['select_section'];
      $selectBatch =  $_POST['select_batch'];
+     $selectClassName =  $_POST['select_className'];
+     $selectDay =$_POST['select_day'];
      $userId = $_SESSION['userId'];
-            $insertTimeTanble = "insert  into uplaodtimetable ()"
+     $teachers = "select *from  assgincourses  where program='$selectProgram' AND section='$selectSection' AND code='$selectCourse' AND batch='$selectBatch'";
+     $findTeacher = $database->getDataList($teachers);
+     if($findTeacher){    
+      $techerRows = $findTeacher->fetch_assoc();
+      $teacherEmail = $techerRows['email'];
+    
+      $teacherName = $techerRows['name'];
+     $findusers = "select *from  users where userEmail='$teacherEmail' AND userRole='teacher'";
+         $findteach  = $database->getDataList($findusers);
+     
+     if($findteach){
+         $teachersRow = $findteach->fetch_assoc();
+     $teaName= $teachersRow['firstName']." ".$teachersRow['lastName'];
+     $teacherId = $teachersRow['userId'];
+     $insertTimeTable = "insert  into uplaodtimetable(userId,subject,code,classTime,className,teacher,teacherId,batch,section,program,day) "
+                    . "values('$userId','$selectCourse','$selectCourse','$classTime','$selectClassName','$teacherName','$teacherId','$selectBatch','$selectSection','$selectProgram','$selectDay')";
+            $uploadTimeTable = $database->addUserData($insertTimeTable);
+            if($uploadTimeTable){?>
+<SCRIPT>
+window.location="uploadTimeTable.php?message=Time Table Successfullly uploaded";
+</script>
+<?php
+
+            }else{
+                ?>
+           
+<SCRIPT>
+window.location="uploadTimeTable.php?message=Sorry Time Table not Uplaoded";
+</script>
+              
+            <?php
+            
+            }
+     }
+     else{?>
+<SCRIPT>
+window.location="uploadTimeTable.php?message=Sorry  Teacher Not Found";
+</script>
+    <?php }
+     }
+     else{?>
+          <SCRIPT>
+window.location="uploadTimeTable.php?message=Sorry Courses Information not match";
+</script>
+
+         
+    <?php  }
 }
 }
+
 
 ?>
 <div class="row">
@@ -77,6 +129,7 @@ if(isset($_POST['addtimetable'])){
 </div>
 </div>
 </div>
+</div>
     <!--  Select Time -->
     <div class="box col-md-2">
 <div class="box-inner">
@@ -103,25 +156,52 @@ if(isset($_POST['addtimetable'])){
     </div>
     </div>
     </div>
-    
-       <!--  Select Class Names -->
+    <!-- select Day  -->
     <div class="box col-md-2">
 <div class="box-inner">
 <div class="box-header well" data-original-title="">
-<h2><i class="glyphicon glyphicon-th"></i> Select Subject</h2>
+<h2><i class="glyphicon glyphicon-th"></i> Select Day</h2>
 
 </div>
 <div class="box-content">
 <div class="row">
    
     <div class="col-md-12">
-        <?php  $subjects = $database->getDataList("select *from  courses"); ?>
-        <select class="form-control" name="select_subject">
-              <?php if($subjects) {
-     while ($subjectRows = $subjects->fetch_assoc()){
+        <?php  $day = $database->getDataList("select *from  weakdays"); ?>
+        <select class="form-control" name="select_day">
+              <?php if($day) {
+     while ($dayRows = $day->fetch_assoc()){
                   ?>
             
-                     <option value="<?php echo $subjectRows['code'];?>"><?php echo $subjectRows['name']; ?></option>
+                     <option value="<?php echo $dayRows['id'];?>"><?php echo $dayRows['name']; ?></option>
+        
+                      <?php }
+              }
+              ?>
+                     </select>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+       <!--  Select Class Names -->
+    <div class="box col-md-2">
+<div class="box-inner">
+<div class="box-header well" data-original-title="">
+<h2><i class="glyphicon glyphicon-th"></i> Select Program</h2>
+
+</div>
+<div class="box-content">
+<div class="row">
+   
+    <div class="col-md-12">
+        <?php  $programs = $database->getDataList("select *from  programs"); ?>
+        <select class="form-control" name="select_program">
+              <?php if($programs) {
+     while ($programsRows = $programs->fetch_assoc()){
+                  ?>
+            
+                     <option value="<?php echo $programsRows['id'];?>"><?php echo $programsRows['programs']; ?></option>
         
                       <?php }
               }
@@ -144,7 +224,7 @@ if(isset($_POST['addtimetable'])){
 <div class="row">
    
     <div class="col-md-12">
-        <select class="form-control" name="batch">
+        <select class="form-control" name="select_batch">
            <?php
              $getbatch = $database->getDataList("select *from batch");
              if($getbatch){
@@ -158,7 +238,31 @@ if(isset($_POST['addtimetable'])){
     </div>
     </div>
     </div>
-    
+           <!--  Select Class Name -->
+    <div class="box col-md-2">
+<div class="box-inner">
+<div class="box-header well" data-original-title="">
+<h2><i class="glyphicon glyphicon-th"></i>Class Name</h2>
+
+</div>
+<div class="box-content">
+<div class="row">
+   
+    <div class="col-md-12">
+       <select class="form-control" name="select_className">
+           <option></option>
+            <?php
+             $getsections = $database->getDataList("select *from classnames");
+             if($getsections){
+                 while ($sectionRow= $getsections->fetch_assoc()){
+             ?> 
+            <option value="<?php  echo $sectionRow['id'];  ?>"><?php echo $sectionRow['className']; ?> </option>
+             <?php } }?>
+        </select>        </div>
+      </div>
+    </div>
+    </div>
+    </div>
           <!--  Select section -->
     <div class="box col-md-2">
 <div class="box-inner">
@@ -212,4 +316,12 @@ if(isset($_POST['addtimetable'])){
     
     
 </div>   
-<?php  include_once 'includes/footer.php'; }?>
+<?php  include_once 'includes/footer.php'; }else{
+    ?>
+              
+<SCRIPT>
+window.location="../logout.php";
+</script>
+<?php
+}
+?>
