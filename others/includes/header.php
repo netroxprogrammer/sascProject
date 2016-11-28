@@ -74,6 +74,7 @@
 </div>
 <ul class="nav nav-pills nav-stacked main-menu">
 <li class="nav-header">Main</li>
+<?php if($_SESSION['userRole']=='coordinator'){  ?>
 <li><a class="ajax-link" href="index.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a>
 </li>
 <li><a class="ajax-link" href="assignCourse.php"><i class="glyphicon glyphicon-eye-open"></i><span>&nbsp;Assign Courses</span></a>
@@ -85,26 +86,26 @@
 </li>
 <li class="nav-header hidden-md">View/Edit Sections</li>
 <li><a class="ajax-link" href="ViewAssignCourses.php"><i class="glyphicon glyphicon-eye-open"></i><span>View Assign Courses</span></a></li>
-<li class="accordion">
-<a href="ViewTimeTable.php"><i class="glyphicon glyphicon-plus"></i><span> View Time Table</span></a>
-<ul class="nav nav-pills nav-stacked">
-<li><a href="#">Child Menu 1</a></li>
-<li><a href="#">Child Menu 2</a></li>
+<li><a class="ajax-link" href="ViewTimeTable.php"><i class="glyphicon glyphicon-calendar"></i><span> View Time Table</span></a></li>
+<li><a class="ajax-link" href="ViewNewsUpdates.php"><i class="glyphicon glyphicon-calendar"></i><span> View News Updates</span></a>
+</li>
+<li><a class="ajax-link" href="ViewDateSheets.php"><i class="glyphicon glyphicon-th"></i><span> View Date Sheet</span></a></li>
+<?php }
+?>
+<?php if($_SESSION['userRole']=='teacher'){  ?>
+
+<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
+<li><a class="ajax-link" href="addQuizMarks.php"><i class="glyphicon glyphicon-home"></i><span> Add Quiz Marks</span></a></li>
+<li><a class="ajax-link" href="addMidMarks.php"><i class="glyphicon glyphicon-home"></i><span>Mid Term Marks</span></a></li>
+<li><a class="ajax-link" href="addFinalmarks.php"><i class="glyphicon glyphicon-home"></i><span>Final Term Marks</span></a></li>
+<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
+<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
+<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
+<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
+<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
+<?php } ?>
 </ul>
-</li>
-<li><a class="ajax-link" href=".php"><i class="glyphicon glyphicon-calendar"></i><span> Calendar</span></a>
-</li>
-<li><a class="ajax-link" href="grid.html"><i class="glyphicon glyphicon-th"></i><span> Grid</span></a></li>
-<li><a href="tour.html"><i class="glyphicon glyphicon-globe"></i><span> Tour</span></a></li>
-<li><a class="ajax-link" href="icon.html"><i class="glyphicon glyphicon-star"></i><span> Icons</span></a></li>
-<li><a href="error.html"><i class="glyphicon glyphicon-ban-circle"></i><span> Error Page</span></a>
-</li>
-<li><a href="login.html"><i class="glyphicon glyphicon-lock"></i><span> Login Page</span></a>
-</li>
-</ul>
-<label id="for-is-ajax" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label>
 </div>
 </div>
 </div>
- 
  

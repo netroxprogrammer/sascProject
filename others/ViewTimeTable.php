@@ -72,7 +72,7 @@ $database = new Database();
 <div class="box col-md-9">
 <div class="box-inner">
 <div class="box-header well" data-original-title="">
-<h2><i class="glyphicon glyphicon-th"></i>View Assign Courses Details</h2>
+<h2><i class="glyphicon glyphicon-th"></i>View Time Table</h2>
 
 </div>
 <div class="box-content">
@@ -93,6 +93,7 @@ $database = new Database();
 </tr>
 </thead>
 <tbody>
+    <tr>
    <?php  
    $getTimeTable  = $database->getDataList("Select *from  uplaodtimetable");
    if($getTimeTable){
@@ -137,7 +138,7 @@ if($programName){
       $day  = $database->getDataList("select *from  weakdays where id='$dayName'");
         if($day){
           $dayRows =$day->fetch_assoc();?>
-<td><?php echo $dayRows['name'];  ?></td>
+<td><?php echo $dayRows['name'];  ?></td></tr>
                 <?php
             }
         

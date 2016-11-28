@@ -2,7 +2,7 @@
 
 <?php
 if(!isset($_SESSION['email']) && !isset($_SESSION['userId']) &&
-!isset($_SESSION['userRole']) && $_SESSION['userRole']!="coordinator"){
+!isset($_SESSION['userRole']) && $_SESSION['userRole']!="teacher"){
 ?>
 <script>
 window.location ="../logout.php";
@@ -17,10 +17,10 @@ else{
 <div class=" row">
     <!--   Assign Course Block -->
 <div class="col-md-3 col-sm-3 col-xs-6">
-<a data-toggle="tooltip" class="well top-block" href="assignCourse.php">
+<a data-toggle="tooltip" class="well top-block" href="addQuizMarks.php">
 <i class="glyphicon glyphicon-user blue"></i>
-<div>Assign Courses</div>
-<div>to Teachers</div>
+<div>Add Quiz</div>
+<div>Marks</div>
 
 </a>
 </div>

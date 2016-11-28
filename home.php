@@ -125,6 +125,11 @@ $(document).ready(function(){
 					<li><a href="#" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
 					<li><a href="logout.php?message=logout sucessfully"
 						class="nav-controller"><i class="fa fa-comment"></i>Logout</a></li>
+                                                <?php if($_SESSION['userRole']=="teacher"){  ?>
+                                                <li><a href="others/teacherIndex.php"
+						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
+
+                                                <?php }?>
 
 				</ul>
 			</div>

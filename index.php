@@ -5,6 +5,22 @@
 <?php include_once "MainSetting/email.php";?>
 <?php 
 $database =  new Database();
+
+if(isset($_SESSION['userRole']) && $_SESSION['userRole']=="coordinator"){?>
+<script>
+
+window.location = "others/index.php";
+</script>
+
+<?php}
+if(isset($_SESSION['userRole']) && $_SESSION['userRole']=="teacher"){?>
+<script>
+
+window.location = "others/teachers/index.php";
+</script>
+<?php
+
+}
 if(!isset($_SESSION['email']) && !isset($_SESSION['userId'])){
 if(isset($_POST['login'])){
 	if(isset($_POST['email']) || !empty($_POST['email']) && 
