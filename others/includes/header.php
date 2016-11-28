@@ -98,11 +98,9 @@
 <li><a class="ajax-link" href="addQuizMarks.php"><i class="glyphicon glyphicon-home"></i><span> Add Quiz Marks</span></a></li>
 <li><a class="ajax-link" href="addMidMarks.php"><i class="glyphicon glyphicon-home"></i><span>Mid Term Marks</span></a></li>
 <li><a class="ajax-link" href="addFinalmarks.php"><i class="glyphicon glyphicon-home"></i><span>Final Term Marks</span></a></li>
-<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
-<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
-<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
-<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
-<li><a class="ajax-link" href="teacherIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
+<li><a class="ajax-link" href="studentNewsUpdates.php"><i class="glyphicon glyphicon-home"></i><span> Add News Updates</span></a></li>
+<li><a class="ajax-link" href="uploadLecture.php"><i class="glyphicon glyphicon-home"></i><span> Upload Lecture</span></a></li>
+
 <?php } ?>
 </ul>
 </div>
