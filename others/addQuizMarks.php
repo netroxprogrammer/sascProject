@@ -26,7 +26,7 @@ include_once '../libraries/database.php';
           && isset($_POST['studentId']) ||!empty($_POST['studentId'])
           && isset($_POST['quizMarks']) ||!empty($_POST['quizMarks'])
           && isset($_POST['quizTotalMarks']) ||!empty($_POST['quizTotalMarks'])
-           && isset($_POST['semester']) ||!empty($_POST['semester'])      
+           && isset($_POST['semester']) && !empty($_POST['semester'])      
                 ){
        $select_subject = $_POST['select_courses'];
        $select_program= $_POST['select_program'];
@@ -38,7 +38,7 @@ include_once '../libraries/database.php';
        $smesters = $_POST['semester'];
        $teacherId = $_SESSION['userId'];
        $addMarksQuery = "insert into  addquizmarks(program,section,batch,subject,studentId,quizMarks,totalQuizMarks,teacherId,type,semester) "
-               . "values('$select_program','$select_section','$select_batch','$select_subject','$studentId','$quizMarks','$quizTotalMarks','$teacherId','quiz','$semester')";
+               . "values('$select_program','$select_section','$select_batch','$select_subject','$studentId','$quizMarks','$quizTotalMarks','$teacherId','quiz','$smesters')";
        
        $addMarks = $database->addUserData($addMarksQuery);
        if($addMarks){
@@ -220,11 +220,11 @@ include_once '../libraries/database.php';
          <select class="form-control" name="semester">
           <option></option>
             <?php
-             $getsections = $database->getDataList("select *from semester");
-             if($getsections){
-                 while ($sectionRow= $getsections->fetch_assoc()){
+             $getsemester = $database->getDataList("select *from semester");
+             if($getsemester){
+                 while ($semesterRow= $getsemester->fetch_assoc()){
              ?> 
-            <option value="<?php  echo $sectionRow['id'];  ?>"><?php echo $sectionRow['semester']; ?> </option>
+            <option value="<?php  echo $semesterRow['id'];  ?>"><?php echo $semesterRow['semester']; ?> </option>
              <?php } }?>
         </select>
     </div>

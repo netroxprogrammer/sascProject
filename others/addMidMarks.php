@@ -38,7 +38,7 @@ include_once '../libraries/database.php';
        $smesters = $_POST['semester'];
        $teacherId = $_SESSION['userId'];
        $addMarksQuery = "insert into  addquizmarks(program,section,batch,subject,studentId,quizMarks,totalQuizMarks,teacherId,type,semester) "
-               . "values('$select_program','$select_section','$select_batch','$select_subject','$studentId','$quizMarks','$quizTotalMarks','$teacherId','mid','$semester')";
+               . "values('$select_program','$select_section','$select_batch','$select_subject','$studentId','$quizMarks','$quizTotalMarks','$teacherId','mid','$smesters')";
        
        $addMarks = $database->addUserData($addMarksQuery);
        if($addMarks){

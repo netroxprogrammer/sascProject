@@ -100,8 +100,12 @@
 <li><a class="ajax-link" href="addFinalmarks.php"><i class="glyphicon glyphicon-home"></i><span>Final Term Marks</span></a></li>
 <li><a class="ajax-link" href="studentNewsUpdates.php"><i class="glyphicon glyphicon-home"></i><span> Add News Updates</span></a></li>
 <li><a class="ajax-link" href="uploadLecture.php"><i class="glyphicon glyphicon-home"></i><span> Upload Lecture</span></a></li>
+<li class="nav-header hidden-md">View/Edit Sections</li>
+<li><a class="ajax-link" href="viewMarks.php"><i class="glyphicon glyphicon-home"></i><span>View Quiz Marks</span></a></li>
+<li><a class="ajax-link" href="SearchNewsUpdates.php"><i class="glyphicon glyphicon-home"></i><span>View News</span></a></li>
 
-<?php } ?>
+    
+    <?php } ?>
 </ul>
 </div>
 </div>

@@ -226,7 +226,7 @@ window.location="uploadLecture.php?message=Sorry Lecture Not Upload";
            
 </div>
     <!-- Uplaod Lecture -->
-<div class="box col-md-7">
+<div class="box col-md-7 col-md-offset-2 ">
 <div class="box-inner">
 <div class="box-header well" data-original-title="">
 <h2><i class="glyphicon glyphicon-th"></i>Upload File</h2>
