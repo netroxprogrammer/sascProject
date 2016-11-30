@@ -103,6 +103,7 @@
 <li class="nav-header hidden-md">View/Edit Sections</li>
 <li><a class="ajax-link" href="viewMarks.php"><i class="glyphicon glyphicon-home"></i><span>View Quiz Marks</span></a></li>
 <li><a class="ajax-link" href="SearchNewsUpdates.php"><i class="glyphicon glyphicon-home"></i><span>View News</span></a></li>
+<li><a class="ajax-link" href="SearchLecture.php"><i class="glyphicon glyphicon-home"></i><span>View Lectures</span></a></li>
 
     
     <?php } ?>
