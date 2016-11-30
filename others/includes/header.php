@@ -40,7 +40,6 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
  
-<link rel="shortcut icon" href="img/favicon.ico">
 </head>
 <body>
  
@@ -48,6 +47,8 @@
 <div class="navbar-inner">
  
 <div class="btn-group pull-right">
+    
+      <a href="../home.php" class="btn btn-default" > <i class="glyphicon glyphicon-backward"></i> Social</a>
     <a href="../logout.php" class="btn btn-default" > <i class="glyphicon glyphicon-lock"></i> Logout</a>
 
 
@@ -107,6 +108,18 @@
 <li class="nav-header hidden-md">Courses Section</li>
 <li><a class="ajax-link" href="MyCourse.php"><i class="glyphicon glyphicon-home"></i><span>My Courses</span></a></li>
 <li><a class="ajax-link" href="MyTimeTable.php"><i class="glyphicon glyphicon-home"></i><span>My Time Table</span></a></li>
+    <?php } ?>
+<?php if($_SESSION['userRole']=='student'){  ?>
+
+<li><a class="ajax-link" href="studentIndex.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
+<li><a class="ajax-link" href="sMyTimeTable.php"><i class="glyphicon glyphicon-home"></i><span> My Time Table</span></a></li>
+<li><a class="ajax-link" href="sReadCoodinatorNews.php"><i class="glyphicon glyphicon-home"></i><span>Coordinator News</span></a></li>
+<li><a class="ajax-link" href="sReaadTeacherNews.php"><i class="glyphicon glyphicon-home"></i><span>Teacher News</span></a></li>
+<li><a class="ajax-link" href="sViewQuizMarks.php"><i class="glyphicon glyphicon-home"></i><span> Quiz Marks</span></a></li>
+<li><a class="ajax-link" href="sViewMidMarks.php"><i class="glyphicon glyphicon-home"></i><span> Mid Marks</span></a></li>
+<li><a class="ajax-link" href="sViewFinalMarks.php"><i class="glyphicon glyphicon-home"></i><span>Final Marks</span></a></li>
+<li><a class="ajax-link" href="sMyLectures.php"><i class="glyphicon glyphicon-home"></i><span>My Lectures</span></a></li>
+
     <?php } ?>
 </ul>
 </div>

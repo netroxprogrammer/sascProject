@@ -128,7 +128,12 @@ $(document).ready(function(){
                                                 <?php if($_SESSION['userRole']=="teacher"){  ?>
                                                 <li><a href="others/teacherIndex.php"
 						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
-
+ 
+                                                <?php }?>
+                                                <?php if($_SESSION['userRole']=="student"){  ?>
+                                                <li><a href="others/studentIndex.php"
+						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
+ 
                                                 <?php }?>
 
 				</ul>
@@ -142,7 +147,7 @@ $(document).ready(function(){
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<style>
 .cover-photo {
-	background: url('img/Cover/cover.jpg');
+	background: url('img/Cover/cover_2.jpg');
 	background-color: #435e9c;
 	background-repeat: no-repeat;
 	background-position: center;
