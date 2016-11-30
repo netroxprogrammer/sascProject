@@ -104,8 +104,9 @@
 <li><a class="ajax-link" href="viewMarks.php"><i class="glyphicon glyphicon-home"></i><span>View Quiz Marks</span></a></li>
 <li><a class="ajax-link" href="SearchNewsUpdates.php"><i class="glyphicon glyphicon-home"></i><span>View News</span></a></li>
 <li><a class="ajax-link" href="SearchLecture.php"><i class="glyphicon glyphicon-home"></i><span>View Lectures</span></a></li>
-
-    
+<li class="nav-header hidden-md">Courses Section</li>
+<li><a class="ajax-link" href="MyCourse.php"><i class="glyphicon glyphicon-home"></i><span>My Courses</span></a></li>
+<li><a class="ajax-link" href="MyTimeTable.php"><i class="glyphicon glyphicon-home"></i><span>My Time Table</span></a></li>
     <?php } ?>
 </ul>
 </div>
