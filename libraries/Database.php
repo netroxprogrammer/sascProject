@@ -60,7 +60,7 @@ class Database{
 	public function isDataExist($query){
 		$result= $this->link->query($query) or  die("Sorry Database field not match");
 		if($result->num_rows>0){
-			return true;
+			return $result;
 		}
 		else{
 			return false;

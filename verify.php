@@ -9,9 +9,10 @@ if(isset($_SESSION['email'])){
 	$email  = $_SESSION['email'];
 	$result = $database->isDataExist("select *from users where userEmail='$email'");
 	if($result){
+            $resuktRow = $result->fetch_assoc();
 		if(isset($_POST['submit']) && isset($_POST['tokken'])){
 			
-			  $vemail = $_POST['vemail'];
+			  $vemail = $resuktRow['userEmail'];
 			$result = $database->isDataExist("select *from users where userEmail='$vemail'");
 			if($result){
                           $users =   $result->fetch_assoc();
