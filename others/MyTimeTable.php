@@ -89,8 +89,7 @@ $database = new Database();
         <td><?php echo $programsRow['programs'];   ?></td>
            <?php }
         ?>
-<td><a href="DownloadFile.php?id=<?php echo $newsRow['id']; ?>" class="label-info label label-default">Download</a></td>
-<td><?php echo $newsRow['created']; ?></td>
+
 
 <tr>
 <?php      }
