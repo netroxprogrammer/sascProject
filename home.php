@@ -96,7 +96,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 					<form class="navbar-form">
 						<div class="form-group" style="display: inline;">
 							<div class="input-group" style="display: table;">
-								<input class="form-control" name="search"
+						po		<input class="form-control" name="search"
 									placeholder="Search..." autocomplete="off"
 									autofocus="autofocus" type="text"> <span
 									class="input-group-addon" style="width: 1%;"> <span
@@ -649,14 +649,25 @@ $image = $getImage->fetch_assoc();
 									 while($row=$comnt->fetch_assoc()){
 									?>
 									<ul class="comments-list">
-										<li class="comment"><a class="pull-left" href="#"> <img
-												class="avatar" src="img/Friends/guy-4.jpg" alt="avatar">
+										<li class="comment"><a class="pull-left" href="#"> 
+                                                                                        <img
+                                                                                             <?php     $postId = $row['senderUserId']; 
+                                                                                                        $name = $database->getDataList("select *from profile where userId='$postId'")->fetch_assoc();
+                                                                                                        
+                                                                                                        ?>
+													
+												class="avatar" src="<?php echo $name['profileImage']; ?>" alt="avatar">
 										</a>
 											<div class="comment-body">
 												<div class="comment-heading">
 													<h4 class="comment-user-name">
-														<a href="#">Markton contz</a>
-													</h4>
+                                                                                                        <?php     $postId = $row['senderUserId']; 
+                                                                                                        $name = $database->getDataList("select *from users where userId='$postId'")->fetch_assoc();
+                                                                                                        
+                                                                                                        ?>
+														<a href="#"><?php echo $name['firstName']." ". $name['lastName']; ?></a>
+													         
+                                                                                                        </h4>
 													<h5 class="time"><?php  echo date('H:i', strtotime($row['time'])); ?></h5>
 												</div>
 												<p><?php echo $row['message'];?></p>
@@ -681,87 +692,107 @@ $image = $getImage->fetch_assoc();
 		<div class="row">
 			<div class="col-md-12">
 				<p>
-					<i class="fa fa-volume-up"></i> Sponsored
+					<i class="fa fa-volume-up"></i> Coordinator News
 				</p>
 				<div style="border: 1px solid #3b5998"></div>
 			</div>
+             
 			<div class="col-md-12 sponsor-list">
-				<img src="img/Sponsor/sponsor-1.jpg"
-					class="img-responsive img-rounded show-in-modal">
-				<p class="sponsor-name">Bootdey</p>
+                               <marquee  onmouseover="this.stop();" onmouseout="this.start();" behavior="scroll" direction="up" style="height:200px;" >
+                            <?php 
+                            $students = $database->getDataList("Select *from students where userId='$userId'");
+                            if($students){
+                                $myBatch = $students->fetch_assoc();
+                               $mBatch  =$myBatch['courseBatch'];
+                               
+                          $allmessage =   $database->getDataList("select *from updatenews  where status='$mBatch' AND  value='unread' order by id desc");
+                          if($allmessage){
+                              while($getMessage = $allmessage->fetch_assoc()){
+                                  $coordinatorId= $getMessage['userId'];
+                                  $getCoordinator =  $database->getDataList("Select *from users where userId='$coordinatorId' and userRole='coordinator'");
+                                if($getCoordinator){
+                                  $getuserName = $getCoordinator->fetch_assoc();
+                                  $userName= $getuserName['firstName'].$getuserName['lastName'];
+                          ?>
+                         <div class="panel">
+                             <a href=""><?php  echo $userName; ?></a><br>
+                             <?php 
+                          
+                         echo $getMessage['newsMessage']; ?></div><br>
+                               
+                               <?php          
+                              }
+                          }
+                          }
+                            }
+                                    ?>
+                               </marquee>
 				<p class="sponsor-url">
-					<a href="http://bootdey.com/">bootdey.com</a>
+                                    <a href="readCoordinatorNews.php">Read All News</a>
 				</p>
-				<p class="sponsor-description">Gallery of free snippets and
-					resources for Bootstrap Html Css Js framework</p>
+				
 			</div>
-			<div class="col-md-12 sponsor-list">
-				<img src="img/Sponsor/sponsor-2.png"
-					class="img-responsive img-rounded show-in-modal">
-				<p class="sponsor-name">Bootdey</p>
-				<p class="sponsor-url">
-					<a href="http://bootdey.com/">bootdey.com</a>
+                    <div class="col-md-12">
+				
+				<div style="border: 1px solid #3b5998"></div>
+			</div>
+			<div class="col-md-12">
+				<p>
+					<i class="fa fa-volume-up"></i> Teachers News
 				</p>
-				<p class="sponsor-description">Gallery of free snippets and
-					resources for Bootstrap Html Css Js framework</p>
+				<div style="border: 1px solid #3b5998"></div>
+			</div>
+             
+			<div class="col-md-12 sponsor-list">
+                               <marquee  onmouseover="this.stop();" onmouseout="this.start();" behavior="scroll" direction="up" style="height:200px;" >
+                            <?php 
+                            $students = $database->getDataList("Select *from students where userId='$userId'");
+                            if($students){
+                                $myBatch = $students->fetch_assoc();
+                               $mBatch  =$myBatch['courseBatch'];
+                               $msemster = $myBatch['semester'];
+                               $msection = $myBatch['studentSection'];
+                               $mcourseName = $myBatch['courceName'];
+                               $mcourseBatch = $myBatch['courseBatch'];
+                               $mcourseCode = $myBatch['courseCode'];
+                               $mProgram = $myBatch['program'];
+                               $getprogramId = $database->getDataList("Select *from programs where programs='$mProgram'")->fetch_assoc();
+                               $getprogramId  =$getprogramId['id'];
+                               $getmsection  = $database->getDataList("select *from sections where sections='$msection'")->fetch_assoc();
+                               $getmsection = $getmsection['id'];
+                               
+                          $allmessage =   $database->getDataList("select *from studentnewsupdates  "
+                                  . "where batch='$mBatch' AND semester='$msemster' AND program='$getprogramId' AND  section='$getmsection' "
+                                  . "AND   status='unread' order by id desc");
+                          if($allmessage){
+                              while($getMessage = $allmessage->fetch_assoc()){
+                                  $teacherID= $getMessage['teacherId'];
+                                  $getCoordinator =  $database->getDataList("Select *from users where userId='$teacherID' and userRole='teacher'");
+                                if($getCoordinator){
+                                  $getuserName = $getCoordinator->fetch_assoc();
+                                  $userName= $getuserName['firstName']." ".$getuserName['lastName'];
+                          ?>
+                         <div class="panel">
+                             <a href=""><?php  echo $userName; ?></a><br>
+                             <?php 
+                          
+                         echo $getMessage['descreption']; ?></div><br>
+                               
+                               <?php          
+                              }
+                          }
+                          }
+                            }
+                                    ?>
+                               </marquee>
+				<p class="sponsor-url">
+                                    <a href="readTeacherNews.php">Read All News</a>
+				</p>
+				
 			</div>
 		</div>
 	</div>
-	<div class="chat-sidebar focus">
-		<div class="list-group text-left">
-			<p class="text-center visible-xs">
-				<a href="#" class="hide-chat">Hide chat</a>
-			</p>
-			<p class="text-center chat-title">
-				<i class="fa fa-weixin">Chat</i>
-			</p>
-			<a href="#" class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/guy-2.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Jeferh Smith</p></a> <a href="#"
-				class="list-group-item"> <i class="fa fa-times-circle absent-status"></i>
-				<img src="img/Friends/woman-1.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Dapibus acatar</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/guy-3.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Antony andrew lobghi</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-2.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Maria fernanda coronel</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/guy-4.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Markton contz</p></a> <a href="#"
-				class="list-group-item"> <i class="fa fa-times-circle absent-status"></i>
-				<img src="img/Friends/woman-3.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Martha creaw</p></a> <a href="#"
-				class="list-group-item"> <i class="fa fa-times-circle absent-status"></i>
-				<img src="img/Friends/woman-8.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Yira Cartmen</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-4.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Jhoanath matew</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-5.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Ryanah Haywofd</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-9.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Linda palma</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-10.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Andrea ramos</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/child-1.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Dora ty bluekl</p></a>
-		</div>
-	</div>
+	
 	<div class="chat-window col-xs-10 col-md-3 col-sm-8 col-md-offset-5">
 		<div class="col-xs-12 col-md-12 col-sm-12">
 			<div class="panel panel-default">
