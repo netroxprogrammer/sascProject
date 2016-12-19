@@ -5,6 +5,68 @@
 <?php include_once 'libraries/Upload.php';?>
 <script>
 
+
+var inProcess = false;//Just to make sure that the last ajax call is not in process
+
+		var datasend = "alert=";
+
+setTimeout( function () {
+   
+    inProcess = true;//make it burn ;)
+    jQuery.ajax({
+        url: 'alertTeacher.php', //Define your script url here ...
+          data:datasend,
+			cache:false,
+        method: 'POST', //Makes sense only if you passing data
+        success: function(msg) {
+        	$('#box').val('');
+				$('#loader').hide();
+				$('#alertbox').fadeIn('slow').prepend(msg);
+				
+				$('#alerts').delay(5000).fadeOut('slow');
+            //jQuery('#request').html(answer);//update your div with new content, yey ....
+            inProcess = false;//Queue is free, guys ;)
+        },
+        error: function() {
+            //unknown error occorupted
+            inProcess = false;//Queue is free, guys ;)
+        }
+    });
+}, 500 );
+</script>
+<script>
+
+
+var inProcess = false;//Just to make sure that the last ajax call is not in process
+
+		var datasend = "alert=";
+
+setTimeout( function () {
+   
+    inProcess = true;//make it burn ;)
+    jQuery.ajax({
+        url: 'alerts.php', //Define your script url here ...
+          data:datasend,
+			cache:false,
+        method: 'POST', //Makes sense only if you passing data
+        success: function(msg) {
+        	$('#box').val('');
+				$('#loader').hide();
+				$('#alertbox').fadeIn('slow').prepend(msg);
+				
+				$('#alerts').delay(5000).fadeOut('slow');
+            //jQuery('#request').html(answer);//update your div with new content, yey ....
+            inProcess = false;//Queue is free, guys ;)
+        },
+        error: function() {
+            //unknown error occorupted
+            inProcess = false;//Queue is free, guys ;)
+        }
+    });
+}, 500 );
+</script>
+<script>
+
 var inProcess = false;//Just to make sure that the last ajax call is not in process
 setTimeout( function () {
     if (inProcess) {
@@ -27,6 +89,18 @@ setTimeout( function () {
 }, 500 );
 </script>
     
+<style>
+
+#alerts:hover{background-color:#C6D3EC;}
+
+#loader{margin:10px;}
+
+#alerts{ margin:5px;padding:4px; border:solid #9dabc9 1px; width:250px; height:80px;border-radius:5px; background-color:#e2e7ee}
+
+#alertbox{position:fixed;width:250px; height:auto; left:100px; bottom:10px;}
+
+</style>
+
     <?php
 
 $database = new Database ();
@@ -96,7 +170,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 					<form class="navbar-form">
 						<div class="form-group" style="display: inline;">
 							<div class="input-group" style="display: table;">
-						po		<input class="form-control" name="search"
+							<input class="form-control" name="search"
 									placeholder="Search..." autocomplete="off"
 									autofocus="autofocus" type="text"> <span
 									class="input-group-addon" style="width: 1%;"> <span
@@ -913,6 +987,7 @@ $image = $getImage->fetch_assoc();
 			<P>&copy; Company 2015</P>
 		</footer>
 	</div>
+    <div id="alertbox"></div>
 </body>
 <!-- Mirrored from demos.bootdey.com/dayday/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:50:32 GMT -->
 </html>

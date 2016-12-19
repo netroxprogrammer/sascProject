@@ -18,10 +18,20 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
                             if($students){
                                 $myBatch = $students->fetch_assoc();
                                $mBatch  =$myBatch['courseBatch'];
-                               
-               $updaetMessage =   $database->updateData("update updatenews set  value='read'  where status='$mBatch' AND id='$msgId' order by id desc");
+                                 $msemster = $myBatch['semester'];
+                               $msection = $myBatch['studentSection'];
+                               $mcourseName = $myBatch['courceName'];
+                               $mcourseBatch = $myBatch['courseBatch'];
+                               $mcourseCode = $myBatch['courseCode'];
+                               $mProgram = $myBatch['program'];
+                               $getprogramId = $database->getDataList("Select *from programs where programs='$mProgram'")->fetch_assoc();
+                               $getprogramId  =$getprogramId['id'];
+                               $getmsection  = $database->getDataList("select *from sections where sections='$msection'")->fetch_assoc();
+                               $getmsection = $getmsection['id'];
+               $updaetMessage =   $database->updateData("update studentnewsupdates set status='read' "
+                                  . "where batch='$mBatch' AND semester='$msemster' AND program='$getprogramId' AND  section='$getmsection' ");
                if($updaetMessage){
-                   header("Location: readCoordinatorNews.php");
+                   header("Location: readTeacherNews.php");
                }
                             }
         }
@@ -50,7 +60,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
                                
                           $allmessage =   $database->getDataList("select *from studentnewsupdates  "
                                   . "where batch='$mBatch' AND semester='$msemster' AND program='$getprogramId' AND  section='$getmsection' "
-                                  . "AND   status='unread' order by id desc");
+                                  . " order by id desc");
                           if($allmessage){
                               while($getMessage = $allmessage->fetch_assoc()){
                                   $coordinatorId= $getMessage['teacherId'];
@@ -79,7 +89,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
                               ?>
                             <div class="col-xs-offset-3">
                                 
-                                <a href="readCoordinatorNews.php?id=<?php echo $mesageId; ?>" class="btn btn-primary btn-xs">unread</a>
+                                <a href="readTeacherNews.php?id=<?php echo $mesageId; ?>" class="btn btn-primary btn-xs">unread</a>
                             </div>
                      <?php     }
                         ?>
