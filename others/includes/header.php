@@ -47,11 +47,13 @@
 <div class="navbar-inner">
  
 <div class="btn-group pull-right">
-    
+    <?php if($_SESSION['userRole']=='coordinator'){  ?>
+    <a href="../logout.php" class="btn btn-default" > <i class="glyphicon glyphicon-lock"></i> Logout</a>
+    <?php }else{?>
       <a href="../home.php" class="btn btn-default" > <i class="glyphicon glyphicon-backward"></i> Social</a>
     <a href="../logout.php" class="btn btn-default" > <i class="glyphicon glyphicon-lock"></i> Logout</a>
 
-
+    <?php } ?>
 </div>
  
  

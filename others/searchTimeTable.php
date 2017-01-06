@@ -46,6 +46,7 @@ if(isset($_POST['searchTime'])){
 </tr>
 </thead>
 <tbody>
+    
    <?php  
    $getTimeTable  = $database->getDataList($makeSearch);
    if($getTimeTable){
@@ -57,6 +58,7 @@ $courseName = $database->getDataList("select *from courses where  code='$code'")
 if($courseName){
     $courseNameRow=$courseName->fetch_assoc();
 ?>
+    <tr>
 <td class="center">
 <?php echo $courseNameRow['name']; ?>
 </td>
@@ -103,6 +105,7 @@ if($programName){
 }    
    }
    ?>
+</tr>
 </tbody>
     </table>
     </div>

@@ -7,6 +7,15 @@ isset($_SESSION['userRole']) && $_SESSION['userRole']=="coordinator"){
 include_once '../config/config.php';  
 include_once '../libraries/database.php'; 
 $database = new Database();
+if(isset($_GET['id'])){
+   $id= $_GET['id'];
+   $database->updateData("delete from file  where id='$id' ");
+  ?>
+<script>
+window.location="ViewDateSheets.php";
+</script>
+<?php
+}
 
 
 ?>
@@ -48,8 +57,8 @@ $database = new Database();
 
 <td><a href="DownloadFile.php?id=<?php echo $newsRow['id']; ?>" class="label-info label label-default">Download</a></td>
 <td><?php echo $newsRow['created']; ?></td>
-<td><a href="<?php echo $newsRow['id']; ?>" class="label-success label label-default">Edit</a>
-<a href="<?php echo $newsRow['id']; ?>" class="label-default label label-danger">Del</a>
+<td>
+    <a href="ViewDateSheets.php?id=<?php echo $newsRow['id']; ?>" class="label-default label label-danger">Delete</a>
 </td>
 
 <tr>

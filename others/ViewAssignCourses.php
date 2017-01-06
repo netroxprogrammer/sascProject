@@ -7,30 +7,23 @@ isset($_SESSION['userRole']) && $_SESSION['userRole']=="coordinator"){
 include_once '../config/config.php';  
 include_once '../libraries/database.php'; 
 $database = new Database();
+if(isset($_GET['id'])){
+   $id= $_GET['id'];
+   $database->updateData("delete from assgincourses  where id='$id' ");
+  ?>
+<script>
+window.location="ViewAssignCourses.php";
+</script>
+<?php
+}
 
 
 ?>
 <div class="row">
     <div class="box col-md-9">
 <div class="box-inner">
-<div class="box-header well" data-original-title="">
-<h2><i class="glyphicon glyphicon-search"></i>Search</h2>
 
-</div>
-<div class="box-content">
-<div class="row">
-   
-    <div class="col-md-4">
-    
-    <input type="text" class="form-control" name="searchassing" placeholder="Search"/>
-    </div>
-    <div class="col-md-4">
-    <a href="" class="btn btn-success"/>Search</a>
-    
-    
-</div>
-</div>
-</div>
+
 </div>
     </div>
          <form method="POST" enctype="multipart/form-data"> 
@@ -94,7 +87,7 @@ if($sectionName){
 ?>
 <td class="center"><?php  echo $sectionNameRow['sections'];?></td><?php } ?>
 <td class="center"><?php echo $courseRow['batch']; ?></td>
-<td class="center"><a href="" class="label-success label label-default">Edit</a>&nbsp;<a href="" class="label-default label label-danger">Delete</a></td>
+<td class="center"><a href="ViewAssignCourses.php?id=<?php echo $courseRow['id']; ?>" class="label-default label label-danger">Delete</a></td>
 </tr>
 <?php  
 

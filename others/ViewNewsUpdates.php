@@ -7,31 +7,23 @@ isset($_SESSION['userRole']) && $_SESSION['userRole']=="coordinator"){
 include_once '../config/config.php';  
 include_once '../libraries/database.php'; 
 $database = new Database();
+if(isset($_GET['id'])){
+   $id= $_GET['id'];
+   $database->updateData("delete from updatenews  where id='$id' ");
+  ?>
+<script>
+window.location="ViewNewsUpdates.php";
+</script>
+<?php
+}
+
+
 
 
 ?>
 <div class="row">
     <div class="box col-md-9">
-<div class="box-inner">
-<div class="box-header well" data-original-title="">
-<h2><i class="glyphicon glyphicon-search"></i>Search</h2>
 
-</div>
-<div class="box-content">
-<div class="row">
-   
-    <div class="col-md-4">
-    
-    <input type="text" class="form-control" name="searchassing" placeholder="Search"/>
-    </div>
-    <div class="col-md-4">
-    <a href="" class="btn btn-success"/>Search</a>
-    
-    
-</div>
-</div>
-</div>
-</div>
     </div>
          <form method="POST" enctype="multipart/form-data"> 
     <!--  Select Subject Name -->
@@ -64,8 +56,8 @@ $database = new Database();
 <td><?php echo $newsRow['newsMessage']; ?></td>
 <td><?php echo $newsRow['status']; ?></td>
 <td><?php echo $newsRow['time']; ?></td>
-<td><a href="<?php echo $newsRow['id']; ?>" class="label-success label label-default">Edit</a>
-<a href="<?php echo $newsRow['id']; ?>" class="label-default label label-danger">Delete</a>
+<td>
+    <a href="ViewNewsUpdates.php?id=<?php echo $newsRow['id']; ?>" class="label-default label label-danger">Delete</a>
 </td>
 <tr>
 <?php      }
