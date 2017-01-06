@@ -84,7 +84,7 @@ $database = new Database();
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<style>
 .cover-photo {
-	background: url('img/Cover/cover.jpg');
+	background: url('img/Cover/cover_2.jpg');
 	background-color: #435e9c;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -93,14 +93,30 @@ $database = new Database();
 	height: 315px;
 }
 </style>
+
+<?php  
+$userId =$_SESSION['userId'];
+$getImage = $database->getDataList("select *from  profile where userId='$userId'");
+if($getImage){
+$image = $getImage->fetch_assoc();
+
+?>
 				<div class="cover-photo">
-					<img src="img/Profile/profile.jpg"
+					<img src="<?php  echo $image['profileImage']; ?>" 
+
 						class="profile-photo img-thumbnail show-in-modal">
 					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
 				</div>
-			</div>
+<?php } else{
+    ?>
+<div class="cover-photo">
+    <img src="img/Profile/default.jpg" 
 
-
+						class="profile-photo img-thumbnail show-in-modal">
+					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
+				</div>
+<?php }
+?>
 
 
 			<div class="col-md-12 col-sm-12 col-xs-12">

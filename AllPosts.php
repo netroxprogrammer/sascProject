@@ -5,6 +5,68 @@
 <?php include_once 'libraries/Upload.php';?>
 <script>
 
+
+var inProcess = false;//Just to make sure that the last ajax call is not in process
+
+		var datasend = "alert=";
+
+setTimeout( function () {
+   
+    inProcess = true;//make it burn ;)
+    jQuery.ajax({
+        url: 'alertTeacher.php', //Define your script url here ...
+          data:datasend,
+			cache:false,
+        method: 'POST', //Makes sense only if you passing data
+        success: function(msg) {
+        	$('#box').val('');
+				$('#loader').hide();
+				$('#alertbox').fadeIn('slow').prepend(msg);
+				
+				$('#alerts').delay(5000).fadeOut('slow');
+            //jQuery('#request').html(answer);//update your div with new content, yey ....
+            inProcess = false;//Queue is free, guys ;)
+        },
+        error: function() {
+            //unknown error occorupted
+            inProcess = false;//Queue is free, guys ;)
+        }
+    });
+}, 500 );
+</script>
+<script>
+
+
+var inProcess = false;//Just to make sure that the last ajax call is not in process
+
+		var datasend = "alert=";
+
+setTimeout( function () {
+   
+    inProcess = true;//make it burn ;)
+    jQuery.ajax({
+        url: 'alerts.php', //Define your script url here ...
+          data:datasend,
+			cache:false,
+        method: 'POST', //Makes sense only if you passing data
+        success: function(msg) {
+        	$('#box').val('');
+				$('#loader').hide();
+				$('#alertbox').fadeIn('slow').prepend(msg);
+				
+				$('#alerts').delay(5000).fadeOut('slow');
+            //jQuery('#request').html(answer);//update your div with new content, yey ....
+            inProcess = false;//Queue is free, guys ;)
+        },
+        error: function() {
+            //unknown error occorupted
+            inProcess = false;//Queue is free, guys ;)
+        }
+    });
+}, 500 );
+</script>
+<script>
+
 var inProcess = false;//Just to make sure that the last ajax call is not in process
 setTimeout( function () {
     if (inProcess) {
@@ -27,6 +89,18 @@ setTimeout( function () {
 }, 500 );
 </script>
     
+<style>
+
+#alerts:hover{background-color:#C6D3EC;}
+
+#loader{margin:10px;}
+
+#alerts{ margin:5px;padding:4px; border:solid #9dabc9 1px; width:250px; height:80px;border-radius:5px; background-color:#e2e7ee}
+
+#alertbox{position:fixed;width:250px; height:auto; left:100px; bottom:10px;}
+
+</style>
+
     <?php
 
 $database = new Database ();
@@ -52,7 +126,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 			}
 		}
 	}
-       
+	$allPost = $database->getDataList ( "select *from posts where  userId='$userId'  ORDER BY  postId DESC" );
 	
 	?>
 		<?php
@@ -96,7 +170,7 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 					<form class="navbar-form">
 						<div class="form-group" style="display: inline;">
 							<div class="input-group" style="display: table;">
-								<input class="form-control" name="search"
+							<input class="form-control" name="search"
 									placeholder="Search..." autocomplete="off"
 									autofocus="autofocus" type="text"> <span
 									class="input-group-addon" style="width: 1%;"> <span
@@ -113,18 +187,28 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
                                         data-toggle="tooltip" data-placement="bottom"
                                         title="Requests"><div id="request">0</div></span></a></li> 
                                  
-                              <li><a href="#"><i class="fa fa-envelope"> </i><span class="badge  "  
-                              data-toggle="tooltip" data-placement="bottom" title="Messages">2</span></a></li> 
-                              
+                             
                                     <script>
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
 
-					<li><a href="#" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
+<li><a href="MyLogs.php" class="nav-controller"> <i class="fa fa-history"></i></i>Logs</a></li>
 					<li><a href="logout.php?message=logout sucessfully"
 						class="nav-controller"><i class="fa fa-comment"></i>Logout</a></li>
+                                                <?php if($_SESSION['userRole']=="teacher"){  ?>
+                                                <li><a href="others/teacherIndex.php"
+						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
+ 
+                                                <?php }?>
+                                               
+                                                <?php 
+                                                if($_SESSION['userRole']=="student"){  ?>
+                                                <li><a href="others/studentIndex.php"
+						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
+ 
+                                                <?php }?>
 
 				</ul>
 			</div>
@@ -137,7 +221,7 @@ $(document).ready(function(){
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<style>
 .cover-photo {
-	background: url('img/Cover/cover.jpg');
+	background: url('img/Cover/cover_2.jpg');
 	background-color: #435e9c;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -149,14 +233,27 @@ $(document).ready(function(){
 <?php  
 
 $getImage = $database->getDataList("select *from  profile where userId='$userId'");
+if($getImage){
 $image = $getImage->fetch_assoc();
+
 ?>
 				<div class="cover-photo">
-					<img src="<?php  echo $image['profileImage']; ?>"
+					<img src="<?php  echo $image['profileImage']; ?>" 
+
 						class="profile-photo img-thumbnail show-in-modal">
 					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
 				</div>
-			</div>
+<?php } else{
+    ?>
+<div class="cover-photo">
+    <img src="img/Profile/default.jpg" 
+
+						class="profile-photo img-thumbnail show-in-modal">
+					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
+				</div>
+<?php }
+?>
+                        </div>
 
 
 
@@ -218,27 +315,40 @@ $image = $getImage->fetch_assoc();
 									<i class="fa fa-users"></i>&nbsp; Friends
 								</h3>
 							</div>
+                                                   <?php
+                                                   
+                                                $getFriendList =    $database->getDataList("Select *from sendfriendrequest  where  friendId='$userId' and status='yes'");
+                                                   
+                                                ?>
 							<div class="panel-body text-center">
 								<ul class="friends">
-									<li><a href="#"> <img src="img/Friends/woman-4.jpg"
+                                                                    <?php
+                                                                    
+                                                                     if($getFriendList){
+                                                        while($getFRows=$getFriendList->fetch_assoc()){
+                                                            $sendId = $getFRows['senderId'];
+                                                        $getFrirndPhoto= $database->getDataList("Select *from profile where  userId='$sendId'");
+                                                             if($getFrirndPhoto){
+                                                                 $friendPhotoRow  =$getFrirndPhoto->fetch_assoc();
+                                                                    ?>
+									<li><a href="#"> <img src="<?php echo $friendPhotoRow['profileImage'] ?>"
 											title="Jhoanath matew" class="img-responsive tip">
 									</a></li>
-									<li><a href="#"> <img src="img/Friends/woman-3.jpg"
-											title="Martha creawn" class="img-responsive tip">
-									</a></li>
-									<li><a href="#"> <img src="img/Friends/guy-2.jpg"
-											title="Jeferh smith" class="img-responsive tip">
-									</a></li>
-									<li><a href="#"> <img src="img/Friends/woman-9.jpg"
-											title="Linda palma" class="img-responsive tip">
-									</a></li>
-									<li><a href="#"> <img src="img/Friends/guy-9.jpg"
-											title="Lindo polmo" class="img-responsive tip">
-									</a></li>
-									<li><a href="#"> <img src="img/Friends/guy-5.jpg"
-											title="andrew cartson" class="img-responsive tip">
-									</a></li>
+                                                                        <?php
+                                                                          }
+                                                        }
+                                                             } else{
+                                                                 
+                                                                 
+                                                                     
+                                                                        ?>
+									
 								</ul>
+                                                            <div class="alert alert-danger" role="alert">
+                                                                <strong>No Friend</strong>
+            </div>
+                                                            <?php 
+                                                             }?>
 							</div>
 						</div>
 					</div>
@@ -350,58 +460,9 @@ $image = $getImage->fetch_assoc();
 								</ul>
 							</div>
 						</div>
-						<?php }else{?>
-                                              <div class="alert alert-danger" role="alert">
-                                                                <strong>No Friend</strong>
-            </div>
-                                                <?php }?>
+						<?php }?>
 					</div>
-					<div class="col-md-12 hidden-xs">
-						<div class="panel panel-default panel-movies">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									<i class="fa fa-video-camera"></i>&nbsp;Movies
-								</h3>
-							</div>
-							<div class="panel-body">
-								<div id="carousel-movies" class="carousel slide"
-									data-ride="carousel" data-interval="false">
-									<ol class="carousel-indicators">
-										<li data-target="#carousel-movies" data-slide-to="0"
-											class="active"></li>
-										<li data-target="#carousel-movies" data-slide-to="1"></li>
-										<li data-target="#carousel-movies" data-slide-to="2"></li>
-									</ol>
-									<div class="carousel-inner" role="listbox">
-										<div class="item active">
-											<img src="img/Movies/movie-1.jpg"
-												class="img-responsive show-in-modal img-movie" alt="Movie">
-											<div class="carousel-caption">Movie name one</div>
-										</div>
-										<div class="item">
-											<img src="img/Movies/movie-2.jpg"
-												class="img-responsive show-in-modal img-movie" alt="Movie">
-											<div class="carousel-caption">Movie name two</div>
-										</div>
-										<div class="item">
-											<img src="img/Movies/movie-3.jpg"
-												class="img-responsive show-in-modal img-movie" alt="Movie">
-											<div class="carousel-caption">Another movie</div>
-										</div>
-									</div>
-									<a class="left carousel-control" href="#carousel-movies"
-										role="button" data-slide="prev"> <span
-										class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-										<span class="sr-only">Previous</span>
-									</a> <a class="right carousel-control" href="#carousel-movies"
-										role="button" data-slide="next"> <span
-										class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-										<span class="sr-only">Next</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
+					
 					<div class="col-md-12">
 						<div class="panel panel-default panel-groups">
 							<div class="panel-heading">
@@ -489,8 +550,17 @@ $image = $getImage->fetch_assoc();
 									<select class="selectpicker show-menu-arrow" name="privacy">
 										<option>private</option>
 										<option>public</option>
+                                                                                <?php  if(isset($_SESSION['userRole'])){
+                                                                                    $role = $_SESSION['userRole'];
+                                                                                    if($role=="teacher"){
+                                                                                   ?>     
 										<option>Students</option>
-										<option>Teachers</option>
+										<?php 
+                                                                                
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                                <option>Teachers</option>
 									</select>
 								</ul>
 
@@ -498,19 +568,8 @@ $image = $getImage->fetch_assoc();
 						</div>
 					</div>
 					<?php
-	 $frinds = $database->getDataList("Select *from sendFriendRequest where  friendId='$userId' AND status='yes' ");
-         $users = $database->getDataList("Select *from users  where userId='$userId'");
-         
-        if($frinds)
-        {
-            
-            while($frindsRow = $frinds->fetch_assoc()){
-                $friendId  = $frindsRow['senderId'];
-                
-            $allPost = $database->getDataList ( "select *from posts   where userId='$friendId' || userId='$userId'   ORDER BY  postId DESC" );
-            
-            
-        if ($allPost) {
+	
+	if ($allPost) {
 		while ( $rows = $allPost->fetch_assoc () ) {
 			
 			?>
@@ -557,11 +616,11 @@ $image = $getImage->fetch_assoc();
 								<div class="stats">
 								   <?php 
 								  $pid= $rows['postId'];
-								    $res = $database->getDataList("select sum(numberOfLikes) as idd from poststatus where userId='$postuserId'
+								    $res = $database->getDataList("select sum(numberOfLikes) as idd from poststatus where userId='$userId'
 								    		and postId='$pid' ");
 								    if($res){
 								    $likes = $res->fetch_assoc();
-								    $dis  ="select *from poststatus where postId='$pid'  and senderId='$userId'  and numberOfLikes=1";
+								    $dis  ="select *from poststatus where postId='$pid'  and userId='$userId' and numberOfLikes=1";
 								    $check = $database->isDataExist($dis);
 								    if($check){
 								    
@@ -583,11 +642,11 @@ $image = $getImage->fetch_assoc();
 									</a> 
 									 <?php 
 								  $pid= $rows['postId'];
-								    $res = $database->getDataList("select sum(numberOfDisLikes) as idd from poststatus where userId='$postuserId'
+								    $res = $database->getDataList("select sum(numberOfDisLikes) as idd from poststatus where userId='$userId'
 								    		and postId='$pid' ");
 								    if($res){
 								    $dislikes = $res->fetch_assoc();
-								     $dis  ="select *from poststatus where postId='$pid'  and senderId='$userId' and numberOfDisLikes=1";
+								     $dis  ="select *from poststatus where postId='$pid'  and userId='$userId' and numberOfDisLikes=1";
 								     $check = $database->isDataExist($dis);
 								     if($check){
 								     	
@@ -632,20 +691,33 @@ $image = $getImage->fetch_assoc();
 									 while($row=$comnt->fetch_assoc()){
 									?>
 									<ul class="comments-list">
-										<li class="comment"><a class="pull-left" href="#"> <img
-												class="avatar" src="img/Friends/guy-4.jpg" alt="avatar">
+										<li class="comment"><a class="pull-left" href="#"> 
+                                                                                        <img
+                                                                                             <?php     $postId = $row['senderUserId']; 
+                                                                                                        $namee = $database->getDataList("select *from profile where userId='$postId'");
+                                                                                                        if($namee){
+                                                                                                          $name=   $namee->fetch_assoc();
+                                                                                                       
+                                                                                                        ?>
+													
+												class="avatar" src="<?php echo $name['profileImage']; ?>" alt="avatar">
 										</a>
 											<div class="comment-body">
 												<div class="comment-heading">
 													<h4 class="comment-user-name">
-														<a href="#">Markton contz</a>
-													</h4>
+                                                                                                        <?php     $postId = $row['senderUserId']; 
+                                                                                                        $name = $database->getDataList("select *from users where userId='$postId'")->fetch_assoc();
+                                                                                                        
+                                                                                                        ?>
+														<a href="#"><?php echo $name['firstName']." ". $name['lastName']; ?></a>
+													         
+                                                                                                        </h4>
 													<h5 class="time"><?php  echo date('H:i', strtotime($row['time'])); ?></h5>
 												</div>
 												<p><?php echo $row['message'];?></p>
 											</div></li>
 									</ul>
-									<?php }}?>
+									<?php } }}?>
 								</div>
 							
 						</div>
@@ -653,18 +725,6 @@ $image = $getImage->fetch_assoc();
 					<?php
 		}
 	}
-        }
-        
-        }
-        else{?>
-         <div class="col-md-12">   
-            <div class="alert alert-danger" role="alert">
-  <strong>No Friend</strong> Sorry  You Have No Friends
-            </div></div>
-        <?php
-        
-        }
-	
 	?>
 					
 					
@@ -676,87 +736,107 @@ $image = $getImage->fetch_assoc();
 		<div class="row">
 			<div class="col-md-12">
 				<p>
-					<i class="fa fa-volume-up"></i> Sponsored
+					<i class="fa fa-volume-up"></i> Coordinator News
 				</p>
 				<div style="border: 1px solid #3b5998"></div>
 			</div>
+             
 			<div class="col-md-12 sponsor-list">
-				<img src="img/Sponsor/sponsor-1.jpg"
-					class="img-responsive img-rounded show-in-modal">
-				<p class="sponsor-name">Bootdey</p>
+                               <marquee  onmouseover="this.stop();" onmouseout="this.start();" behavior="scroll" direction="up" style="height:200px;" >
+                            <?php 
+                            $students = $database->getDataList("Select *from students where userId='$userId'");
+                            if($students){
+                                $myBatch = $students->fetch_assoc();
+                               $mBatch  =$myBatch['courseBatch'];
+                               
+                          $allmessage =   $database->getDataList("select *from updatenews  where status='$mBatch' AND  value='unread' order by id desc");
+                          if($allmessage){
+                              while($getMessage = $allmessage->fetch_assoc()){
+                                  $coordinatorId= $getMessage['userId'];
+                                  $getCoordinator =  $database->getDataList("Select *from users where userId='$coordinatorId' and userRole='coordinator'");
+                                if($getCoordinator){
+                                  $getuserName = $getCoordinator->fetch_assoc();
+                                  $userName= $getuserName['firstName'].$getuserName['lastName'];
+                          ?>
+                         <div class="panel">
+                             <a href=""><?php  echo $userName; ?></a><br>
+                             <?php 
+                          
+                         echo $getMessage['newsMessage']; ?></div><br>
+                               
+                               <?php          
+                              }
+                          }
+                          }
+                            }
+                                    ?>
+                               </marquee>
 				<p class="sponsor-url">
-					<a href="http://bootdey.com/">bootdey.com</a>
+                                    <a href="readCoordinatorNews.php">Read All News</a>
 				</p>
-				<p class="sponsor-description">Gallery of free snippets and
-					resources for Bootstrap Html Css Js framework</p>
+				
 			</div>
-			<div class="col-md-12 sponsor-list">
-				<img src="img/
-				<p class="sponsor-description">Gallery of free snippets and
-					resources for Bootstrap Html Css Js framework</p>
-			</div>Sponsor/sponsor-2.png"
-					class="img-responsive img-rounded show-in-modal">
-				<p class="sponsor-name">Bootdey</p>
-				<p class="sponsor-url">
-					<a href="http://bootdey.com/">bootdey.com</a>
+                    <div class="col-md-12">
+				
+				<div style="border: 1px solid #3b5998"></div>
+			</div>
+			<div class="col-md-12">
+				<p>
+					<i class="fa fa-volume-up"></i> Teachers News
 				</p>
+				<div style="border: 1px solid #3b5998"></div>
+			</div>
+             
+			<div class="col-md-12 sponsor-list">
+                               <marquee  onmouseover="this.stop();" onmouseout="this.start();" behavior="scroll" direction="up" style="height:200px;" >
+                            <?php 
+                            $students = $database->getDataList("Select *from students where userId='$userId'");
+                            if($students){
+                                $myBatch = $students->fetch_assoc();
+                               $mBatch  =$myBatch['courseBatch'];
+                               $msemster = $myBatch['semester'];
+                               $msection = $myBatch['studentSection'];
+                               $mcourseName = $myBatch['courceName'];
+                               $mcourseBatch = $myBatch['courseBatch'];
+                               $mcourseCode = $myBatch['courseCode'];
+                               $mProgram = $myBatch['program'];
+                               $getprogramId = $database->getDataList("Select *from programs where programs='$mProgram'")->fetch_assoc();
+                               $getprogramId  =$getprogramId['id'];
+                               $getmsection  = $database->getDataList("select *from sections where sections='$msection'")->fetch_assoc();
+                               $getmsection = $getmsection['id'];
+                               
+                          $allmessage =   $database->getDataList("select *from studentnewsupdates  "
+                                  . "where batch='$mBatch' AND semester='$msemster' AND program='$getprogramId' AND  section='$getmsection' "
+                                  . "AND   status='unread' order by id desc");
+                          if($allmessage){
+                              while($getMessage = $allmessage->fetch_assoc()){
+                                  $teacherID= $getMessage['teacherId'];
+                                  $getCoordinator =  $database->getDataList("Select *from users where userId='$teacherID' and userRole='teacher'");
+                                if($getCoordinator){
+                                  $getuserName = $getCoordinator->fetch_assoc();
+                                  $userName= $getuserName['firstName']." ".$getuserName['lastName'];
+                          ?>
+                         <div class="panel">
+                             <a href=""><?php  echo $userName; ?></a><br>
+                             <?php 
+                          
+                         echo $getMessage['descreption']; ?></div><br>
+                               
+                               <?php          
+                              }
+                          }
+                          }
+                            }
+                                    ?>
+                               </marquee>
+				<p class="sponsor-url">
+                                    <a href="readTeacherNews.php">Read All News</a>
+				</p>
+				
+			</div>
 		</div>
 	</div>
-	<div class="chat-sidebar focus">
-		<div class="list-group text-left">
-			<p class="text-center visible-xs">
-				<a href="#" class="hide-chat">Hide chat</a>
-			</p>
-			<p class="text-center chat-title">
-				<i class="fa fa-weixin">Chat</i>
-			</p>
-			<a href="#" class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/guy-2.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Jeferh Smith</p></a> <a href="#"
-				class="list-group-item"> <i class="fa fa-times-circle absent-status"></i>
-				<img src="img/Friends/woman-1.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Dapibus acatar</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/guy-3.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Antony andrew lobghi</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-2.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Maria fernanda coronel</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/guy-4.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Markton contz</p></a> <a href="#"
-				class="list-group-item"> <i class="fa fa-times-circle absent-status"></i>
-				<img src="img/Friends/woman-3.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Martha creaw</p></a> <a href="#"
-				class="list-group-item"> <i class="fa fa-times-circle absent-status"></i>
-				<img src="img/Friends/woman-8.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Yira Cartmen</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-4.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Jhoanath matew</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-5.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Ryanah Haywofd</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-9.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Linda palma</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/woman-10.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Andrea ramos</p></a> <a href="#"
-				class="list-group-item"> <i
-				class="fa fa-check-circle connected-status"></i> <img
-				src="img/Friends/child-1.jpg" class="img-chat img-thumbnail">
-				<p class="chat-user-name">Dora ty bluekl</p></a>
-		</div>
-	</div>
+	
 	<div class="chat-window col-xs-10 col-md-3 col-sm-8 col-md-offset-5">
 		<div class="col-xs-12 col-md-12 col-sm-12">
 			<div class="panel panel-default">
@@ -877,8 +957,8 @@ $image = $getImage->fetch_assoc();
 			<P>&copy; Company 2015</P>
 		</footer>
 	</div>
+    <div id="alertbox"></div>
 </body>
-<!-- Mirrored from demos.bootdey.com/dayday/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2016 18:50:32 GMT -->
 </html>
 <?php
 } else {

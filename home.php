@@ -187,16 +187,14 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
                                         data-toggle="tooltip" data-placement="bottom"
                                         title="Requests"><div id="request">0</div></span></a></li> 
                                  
-                              <li><a href="#"><i class="fa fa-envelope"> </i><span class="badge  "  
-                              data-toggle="tooltip" data-placement="bottom" title="Messages">2</span></a></li> 
-                              
+                             
                                     <script>
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
 
-					<li><a href="#" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
+<li><a href="MyLogs.php" class="nav-controller"> <i class="fa fa-history"></i></i>Logs</a></li>
 					<li><a href="logout.php?message=logout sucessfully"
 						class="nav-controller"><i class="fa fa-comment"></i>Logout</a></li>
                                                 <?php if($_SESSION['userRole']=="teacher"){  ?>
@@ -204,7 +202,9 @@ $(document).ready(function(){
 						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
  
                                                 <?php }?>
-                                                <?php if($_SESSION['userRole']=="student"){  ?>
+                                               
+                                                <?php 
+                                                if($_SESSION['userRole']=="student"){  ?>
                                                 <li><a href="others/studentIndex.php"
 						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
  
@@ -233,14 +233,27 @@ $(document).ready(function(){
 <?php  
 
 $getImage = $database->getDataList("select *from  profile where userId='$userId'");
+if($getImage){
 $image = $getImage->fetch_assoc();
+
 ?>
 				<div class="cover-photo">
-					<img src="<?php  echo $image['profileImage']; ?>"
+					<img src="<?php  echo $image['profileImage']; ?>" 
+
 						class="profile-photo img-thumbnail show-in-modal">
 					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
 				</div>
-			</div>
+<?php } else{
+    ?>
+<div class="cover-photo">
+    <img src="img/Profile/default.jpg" 
+
+						class="profile-photo img-thumbnail show-in-modal">
+					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
+				</div>
+<?php }
+?>
+                        </div>
 
 
 
@@ -449,52 +462,7 @@ $image = $getImage->fetch_assoc();
 						</div>
 						<?php }?>
 					</div>
-					<div class="col-md-12 hidden-xs">
-						<div class="panel panel-default panel-movies">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									<i class="fa fa-video-camera"></i>&nbsp;Movies
-								</h3>
-							</div>
-							<div class="panel-body">
-								<div id="carousel-movies" class="carousel slide"
-									data-ride="carousel" data-interval="false">
-									<ol class="carousel-indicators">
-										<li data-target="#carousel-movies" data-slide-to="0"
-											class="active"></li>
-										<li data-target="#carousel-movies" data-slide-to="1"></li>
-										<li data-target="#carousel-movies" data-slide-to="2"></li>
-									</ol>
-									<div class="carousel-inner" role="listbox">
-										<div class="item active">
-											<img src="img/Movies/movie-1.jpg"
-												class="img-responsive show-in-modal img-movie" alt="Movie">
-											<div class="carousel-caption">Movie name one</div>
-										</div>
-										<div class="item">
-											<img src="img/Movies/movie-2.jpg"
-												class="img-responsive show-in-modal img-movie" alt="Movie">
-											<div class="carousel-caption">Movie name two</div>
-										</div>
-										<div class="item">
-											<img src="img/Movies/movie-3.jpg"
-												class="img-responsive show-in-modal img-movie" alt="Movie">
-											<div class="carousel-caption">Another movie</div>
-										</div>
-									</div>
-									<a class="left carousel-control" href="#carousel-movies"
-										role="button" data-slide="prev"> <span
-										class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-										<span class="sr-only">Previous</span>
-									</a> <a class="right carousel-control" href="#carousel-movies"
-										role="button" data-slide="next"> <span
-										class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-										<span class="sr-only">Next</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
+					
 					<div class="col-md-12">
 						<div class="panel panel-default panel-groups">
 							<div class="panel-heading">
@@ -726,8 +694,10 @@ $image = $getImage->fetch_assoc();
 										<li class="comment"><a class="pull-left" href="#"> 
                                                                                         <img
                                                                                              <?php     $postId = $row['senderUserId']; 
-                                                                                                        $name = $database->getDataList("select *from profile where userId='$postId'")->fetch_assoc();
-                                                                                                        
+                                                                                                        $namee = $database->getDataList("select *from profile where userId='$postId'");
+                                                                                                        if($namee){
+                                                                                                          $name=   $namee->fetch_assoc();
+                                                                                                       
                                                                                                         ?>
 													
 												class="avatar" src="<?php echo $name['profileImage']; ?>" alt="avatar">
@@ -747,7 +717,7 @@ $image = $getImage->fetch_assoc();
 												<p><?php echo $row['message'];?></p>
 											</div></li>
 									</ul>
-									<?php }}?>
+									<?php } }}?>
 								</div>
 							
 						</div>
@@ -762,6 +732,7 @@ $image = $getImage->fetch_assoc();
 			</div>
 		</div>
 	</div>
+
 	<div class="col-md-2 col-sm-3 sponsor-container">
 		<div class="row">
 			<div class="col-md-12">
