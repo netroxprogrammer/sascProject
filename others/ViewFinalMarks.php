@@ -19,7 +19,16 @@ include_once '../libraries/database.php';
 
 
 $database = new Database();
-
+if(isset($_GET['quizid'])){
+   $quizid= $_GET['quizid'];
+   $database->updateData("delete from addquizmarks  where quizId='$quizid' ");
+  ?>
+<script>
+window.location="ViewFinalMarks.php?id=<?php echo $_SESSION['addId']; ?>";
+</script>
+<?php
+}
+?>
 ?>
 <div class="box col-md-9">
 <div class="box-inner">
@@ -94,8 +103,9 @@ $database = new Database();
                  <th><?php echo $quizRow['semester']; ?></th>
                <th><?php echo $quizRow['quizMarks']; ?></th> 
                 <th><?php echo $quizRow['totalQuizMarks']; ?></th>
-                <td class="center"><a href="" class="label-success label label-default">Edit</a>&nbsp;
-                    <a href="" class="label-default label label-danger">Delete</a></td>
+                <td class="center">
+                    <a href="ViewFinalMarks.php?quizid=<?php echo $quizRow['quizId'];  ?>" class="label-default label label-danger">Delete</a></td>
+  
       
        </tr> 
    

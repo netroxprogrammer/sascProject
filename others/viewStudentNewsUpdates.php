@@ -19,12 +19,32 @@ include_once '../libraries/database.php';
 
 
 $database = new Database();
- 
-        
+ if(isset($_GET['id'])){
+   $id= $_GET['id'];
+   $database->updateData("delete from studentnewsupdates  where id='$id' ");
+  ?>
+<script>
+window.location="viewStudentNewsUpdates.php?select_batch=<?php echo $_SESSION['select_batch']; ?>&\n\
+semester=<?php echo $_SESSION['semester']; ?>&select_program=<?php echo $_SESSION['select_program']; ?>&select_section=<?php echo $_SESSION['select_section']; ?>&searchNews=Search+News";
+</script>
+<?php
+}
+
+
+        if(isset($_GET['select_batch']) && 
+        isset($_GET['semester']) &&
+        isset($_GET['select_program']) && 
+        isset($_GET['select_section'])){
+            
         $batch = $_GET['select_batch'];
         $semester = $_GET['semester'];
         $program = $_GET['select_program'];
         $section = $_GET['select_section'];
+        $_SESSION['select_batch'] = $batch;
+        $_SESSION['semester'] = $semester;
+        $_SESSION['select_program'] = $program;
+        $_SESSION['select_section'] = $section;
+       
        
  
 
@@ -97,8 +117,9 @@ $database = new Database();
               
                  <th><?php echo $quizRow['semester']; ?></th>
               
-                <td class="center"><a href="" class="label-success label label-default">Edit</a>&nbsp;
-                    <a href="" class="label-default label label-danger">Delete</a></td>
+                <td class="center">
+                    
+                    <a href="viewStudentNewsUpdates.php?id=<?php echo $quizRow['id']; ?>" class="label-default label label-danger">Delete</a></td>
       
        </tr> 
    
@@ -113,4 +134,5 @@ $database = new Database();
 </div>
 </div>
 <?php  //}
+}
 }?>

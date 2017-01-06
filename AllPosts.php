@@ -126,7 +126,6 @@ if (isset ( $_SESSION ['email'] ) && isset ( $_SESSION ['userId'] )) {
 			}
 		}
 	}
-	$allPost = $database->getDataList ( "select *from posts where  userId='$userId'  ORDER BY  postId DESC" );
 	
 	?>
 		<?php
@@ -332,15 +331,13 @@ $image = $getImage->fetch_assoc();
                                                                  $friendPhotoRow  =$getFrirndPhoto->fetch_assoc();
                                                                     ?>
 									<li><a href="#"> <img src="<?php echo $friendPhotoRow['profileImage'] ?>"
-											title="Jhoanath matew" class="img-responsive tip">
+											title="" class="img-responsive tip">
 									</a></li>
                                                                         <?php
                                                                           }
                                                         }
                                                              } else{
                                                                  
-                                                                 
-                                                                     
                                                                         ?>
 									
 								</ul>
@@ -568,6 +565,13 @@ $image = $getImage->fetch_assoc();
 						</div>
 					</div>
 					<?php
+        $getFriendLists = $database->getDataList("Select *from sendfriendrequest  where  friendId='$userId' || senderId='$userId' and status='yes'");                                                            
+	
+        if($getFriendLists ){
+            while($getList= $getFriendLists->fetch_assoc()){
+            $freindid = $getList['senderId'];
+        
+        $allPost = $database->getDataList ( "select *from posts where  userId='$userId' || userId='$freindid' ORDER BY  postId DESC" );
 	
 	if ($allPost) {
 		while ( $rows = $allPost->fetch_assoc () ) {
@@ -725,6 +729,7 @@ $image = $getImage->fetch_assoc();
 					<?php
 		}
 	}
+        }
 	?>
 					
 					
@@ -961,7 +966,8 @@ $image = $getImage->fetch_assoc();
 </body>
 </html>
 <?php
-} else {
+} 
+}else {
 	header ( "Location: index.php" );
 }
 ?>

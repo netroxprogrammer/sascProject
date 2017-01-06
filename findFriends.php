@@ -40,12 +40,33 @@ $database = new Database();
 				</div>
 
 				<ul class="nav navbar-nav navbar-right">
+                                  
+                             <li><a href="acceptRequests.php"><i class="fa fa-user"> </i><span class="badge badge-error "  
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Requests"><div id="request">0</div></span></a></li> 
+                                 
+                             
+                                    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 
-
-
-					<li><a href="home.php" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
+<li><a href="MyLogs.php" class="nav-controller"> <i class="fa fa-history"></i></i>Logs</a></li>
 					<li><a href="logout.php?message=logout sucessfully"
 						class="nav-controller"><i class="fa fa-comment"></i>Logout</a></li>
+                                                <?php if($_SESSION['userRole']=="teacher"){  ?>
+                                                <li><a href="others/teacherIndex.php"
+						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
+ 
+                                                <?php }?>
+                                               
+                                                <?php 
+                                                if($_SESSION['userRole']=="student"){  ?>
+                                                <li><a href="others/studentIndex.php"
+						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
+ 
+                                                <?php }?>
 
 				</ul>
 			</div>
@@ -57,7 +78,7 @@ $database = new Database();
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<style>
 .cover-photo {
-	background: url('img/Cover/cover.jpg');
+	background: url('img/Cover/cover_2.jpg');
 	background-color: #435e9c;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -66,12 +87,30 @@ $database = new Database();
 	height: 315px;
 }
 </style>
+
+<?php  
+$userId =$_SESSION['userId'];
+$getImage = $database->getDataList("select *from  profile where userId='$userId'");
+if($getImage){
+$image = $getImage->fetch_assoc();
+
+?>
 				<div class="cover-photo">
-					<img src="img/Profile/profile.jpg"
+					<img src="<?php  echo $image['profileImage']; ?>" 
+
 						class="profile-photo img-thumbnail show-in-modal">
 					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
 				</div>
-			</div>
+<?php } else{
+    ?>
+<div class="cover-photo">
+    <img src="img/Profile/default.jpg" 
+
+						class="profile-photo img-thumbnail show-in-modal">
+					<div class="cover-name"><?php echo ucwords($_SESSION['firstName'] ." " .$_SESSION['lastName']);?></div>
+				</div>
+<?php }
+?>
 
 
 

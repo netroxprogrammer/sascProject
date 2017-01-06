@@ -19,7 +19,15 @@ include_once '../libraries/database.php';
 
 
 $database = new Database();
-
+if(isset($_GET['quizid'])){
+   $quizid= $_GET['quizid'];
+   $database->updateData("delete from addquizmarks  where quizId='$quizid' ");
+  ?>
+<script>
+window.location="viewAllMidMarks.php";
+</script>
+<?php
+}
 ?>
 <div class="box col-md-9">
 <div class="box-inner">
@@ -47,6 +55,8 @@ $database = new Database();
 </thead>
 <tbody>
     <?php 
+    
+     
       $teacherId=$_SESSION['userId'];
     $getQuizDetails = "select *from addquizmarks where  type='mid' AND teacherId='$teacherId'";
     $getfromTable= $database->getDataList($getQuizDetails);
@@ -93,14 +103,16 @@ $database = new Database();
                  <th><?php echo $quizRow['semester']; ?></th>
                <th><?php echo $quizRow['quizMarks']; ?></th> 
                 <th><?php echo $quizRow['totalQuizMarks']; ?></th>
-                <td class="center"><a href="" class="label-success label label-default">Edit</a>&nbsp;
-                    <a href="" class="label-default label label-danger">Delete</a></td>
+                <td class="center">
+                    
+                    <a href="viewAllMidMarks.php?quizid=<?php echo $quizRow['quizId'];  ?>" class="label-default label label-danger">Delete</a></td>
       
        </tr> 
    
 <?php
       }
-    } ?>
+    
+    }?>
 </tbody>
     </table>
     </div>

@@ -28,6 +28,10 @@ $allComments = $database->getDataList("select *from comment where senderUserId='
 </style>
 <body class="container body">
 <div class="row well">
+    
+    <div class="col-xs-1">
+        <a href="home.php">Back</a>
+    </div>
     <div class="col-xs-3 col-xs-offset-5">
         <h3>My Activities</h3>
     </div>

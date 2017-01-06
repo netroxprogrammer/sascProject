@@ -65,13 +65,35 @@ $database = new Database();
 					</form>
 				</div>
 
+				
 				<ul class="nav navbar-nav navbar-right">
+                                  
+                             <li><a href="acceptRequests.php"><i class="fa fa-user"> </i><span class="badge badge-error "  
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Requests"><div id="request">0</div></span></a></li> 
+                                 
+                             
+                                    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 
-
-
-					<li><a href="home.php" class="nav-controller"><i class="fa fa-comment"></i>Chat</a></li>
+<li><a href="MyLogs.php" class="nav-controller"> <i class="fa fa-history"></i></i>Logs</a></li>
 					<li><a href="logout.php?message=logout sucessfully"
 						class="nav-controller"><i class="fa fa-comment"></i>Logout</a></li>
+                                                <?php if($_SESSION['userRole']=="teacher"){  ?>
+                                                <li><a href="others/teacherIndex.php"
+						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
+ 
+                                                <?php }?>
+                                               
+                                                <?php 
+                                                if($_SESSION['userRole']=="student"){  ?>
+                                                <li><a href="others/studentIndex.php"
+						class="nav-controller"><i class="fa fa-comment"></i>Switch</a></li>
+ 
+                                                <?php }?>
 
 				</ul>
 			</div>
